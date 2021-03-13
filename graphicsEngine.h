@@ -5,7 +5,7 @@
 #include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 #include <string>
-#include "../Input/Input.h"
+#include "Input/Input.h"
 #include "GUI/GUIManager.h"
 #include "GUI/panel.h"
 #include "GUI/textObject.h"
