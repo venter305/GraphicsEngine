@@ -7,7 +7,6 @@
 #include <sstream>
 #include <array>
 
-//test
 
 GLfloat Panel::vertices[] = {
 		 0.0f, 0.0f,0.0f,0.0f,
@@ -50,7 +49,7 @@ Panel::~Panel(){
 
 //Draw the Panel
 void Panel::draw(){
-	GLFWwindow *currWindow = glfwGetCurrentContext();
+	//GLFWwindow *currWindow = glfwGetCurrentContext();
 	//glfwMakeContextCurrent(context);
 	glUseProgram(shaderId);
 
@@ -84,6 +83,7 @@ void Panel::CreateTexture(int width, int height,GLenum format,GLenum type,void* 
 
 	glGenTextures(1,&tex);
 	glBindTexture(GL_TEXTURE_2D,tex);
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,format,type,pixels);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -154,7 +154,7 @@ void Panel::SetMVP(){
 
 void Panel::changeContext(GLFWwindow *window){
 	context = window;
-	GLFWwindow *currWindow = glfwGetCurrentContext();
+	//GLFWwindow *currWindow = glfwGetCurrentContext();
 	//glfwMakeContextCurrent(window);
 
 	//Shaders

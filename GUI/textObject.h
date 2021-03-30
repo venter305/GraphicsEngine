@@ -16,21 +16,24 @@ class Text : public GUIElement{
 		int width;
 		int height;
 
+		float fontSize;
+
 		std::string text;
 		std::string font;
 
-		float fontSize;
 
 		float color[3] = {0.0,0.0,0.0};
 
 		Text(int,int,float,std::string,std::string);
-		~Text();
+		virtual ~Text();
 
 		void draw();
 		void setText(std::string);
 		void setPos(int,int);
 		void setFontSize(float);
 		void setTextColor(float,float,float);
+
+		std::string GetText(){return text;};
 
 
 private:

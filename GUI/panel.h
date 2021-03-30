@@ -36,7 +36,7 @@ class Panel : public GUIElement{
 
 		Panel(GLuint,GLuint,GLuint,GLuint,GLFWwindow*,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
-		~Panel();
+		virtual ~Panel();
 
 		virtual void draw();
 

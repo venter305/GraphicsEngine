@@ -49,15 +49,23 @@ void Button::setTextAlignment(TextAlignment tAlign){
 	setTextPos();
 }
 
+void Button::SetTextMargins(int x,int y){
+	textMarginX = x;
+	textMarginY = y;
+	setTextPos();
+}
+
 void Button::setTextPos(int xOffset,int yOffset){
-	int textPosX = xOffset;
-	int textPosY = yPos+(height/2)-(text->height/2)+yOffset;
+	int textPosX = textMarginX + xOffset;
+	int textPosY = yPos+(height/2)-(text->height/2)+textMarginY + yOffset;
 	switch(textAlignment){
 		case TextAlignment::Center:
 			textPosX += xPos+(width/2)-(text->width/2);
 			break;
 		case TextAlignment::Left:
 			textPosX += xPos;
+			break;
+		case TextAlignment::Right:
 			break;
 	}
 	text->setPos(textPosX,textPosY);

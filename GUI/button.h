@@ -23,9 +23,11 @@ class Button : public Panel{
 		Button(int,int,int,int,void(*)(Button*),std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
 		Button(int,int,int,int,void(*)(Button*),GLFWwindow*,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
-		~Button();
+		virtual ~Button();
 		void (*action)(Button*);
-		void clickAction(int,int);
+		virtual void clickAction(int,int);
+
+		std::string GetText(){return text->GetText();}
 
 		void setText(std::string);
 		void setTextSize(int);
@@ -34,4 +36,9 @@ class Button : public Panel{
 		void setTextPos(int = 0,int = 0);
 		void draw();
 		void setBackgroundColor(float,float,float);
+		void SetTextMargins(int x, int y);
+
+	private:
+		int textMarginX = 0;
+		int textMarginY = 0;
 };

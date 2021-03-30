@@ -10,18 +10,24 @@
 #include "GUI/panel.h"
 #include "GUI/textObject.h"
 #include "GUI/button.h"
+#include "GUI/textInput.h"
 
 class GraphicsEngine{
-
-public:
+private:
+	static int width;
+	static int height;
 	static GLFWwindow *window;
 	static std::string title;
+
+public:
 
 	static Input input;
 	static GUIManager guiMan;
 
-	 static void (*mainLoop)(GLFWwindow*,double);
-
 	static void Init(int,int,std::string,void(*)(GLFWwindow*,double));
 	static void Run();
+
+private:
+	static void (*mainLoop)(GLFWwindow*,double);
+
 };

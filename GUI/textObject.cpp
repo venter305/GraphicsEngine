@@ -28,6 +28,7 @@ void Text::setText(std::string t){
 
 	penX = xPos;
 	penY = yPos;
+	newLines = 0;
 
 	for (char c : text)
 		addCharacter(c);
@@ -39,9 +40,8 @@ void Text::setText(std::string t){
 }
 
 void Text::draw(){
-	for (int i=0;i<characters.size();i++){
-		characters[i]->draw();
-	}
+	for (auto character : characters)
+		character->draw();
 }
 
 void Text::addCharacter(char c){
@@ -108,90 +108,3 @@ void Text::setTextColor(float r,float g, float b){
 	}
 
 }
-
-//Draw the text
-/*void Text::drawText(int x,int y,float scale,string t,string fontPath){
-	GLFWwindow *currWindow = glfwGetCurrentContext();
-	glfwMakeContextCurrent(context);
-	FT_New_Face(library,fontPath.c_str(),0,&face);
-	FT_Set_Pixel_Sizes(face,0,scale);
-
-	int fontScale = 1;
-
-	int xSize = 1;
-	int ySize = (scale)*1.25;
-	int numNewLine = 0;
-	queue<int> newLineIndex;
-	int i = 0;
-	int xMax = 0;
-
-	//Calculate the X size
-	string::const_iterator c;
-	if (yTmpPos == -1)
-		yTmpPos = yPos;
-	setPos(xPos,yTmpPos);
-	yOffset = yPos;
-	for (c = t.begin();c != t.end();c++){
-		FT_Load_Char(face,*c,FT_LOAD_RENDER);
-		if (*c != '\n'){
-			xSize += ((face->glyph->advance.x/fontScale)/64);
-			if (xSize > xMax)
-				xMax = xSize;
-		}
-		else{
-			xSize = 1;
-			numNewLine++;
-			newLineIndex.push(i);
-			ySize += scale;
-			yOffset -= scale;
-		}
-		i++;
-	}
-	xSize = xMax;
-	setSize(xSize,ySize);
-	yTmpPos = yPos;
-	setPos(xPos,yOffset);
-
-
-	int xOffset = 1;
-
-	int charX = 0;
-	int charY = 0;
-	int nlIndex = 0;
-	int nlOffset = 0;
-	//Draw Character
-	for (c = t.begin();c != t.end();c++){
-		if (*c != '\n'){
-			if (!newLineIndex.empty())
-				nlIndex = newLineIndex.front();
-
-			FT_Load_Char(face,*c,FT_LOAD_RENDER);
-			glTexImage2D(GL_TEXTURE_2D,0,GL_RED,face->glyph->bitmap.width,face->glyph->bitmap.rows,0,GL_RED,GL_UNSIGNED_BYTE,face->glyph->bitmap.buffer);
-			charX = xOffset+(face->glyph->bitmap_left);
-			if (charX < 1)
-				charX = 0;
-			charY = (scale)-(face->glyph->bitmap_top/fontScale)+nlOffset;
-			sChar->setPos(charX,charY);
-			sChar->setSize((face->glyph->bitmap.width)/fontScale,(face->glyph->bitmap.rows)/fontScale);
-			xOffset += ((face->glyph->advance.x/fontScale)/64);
-			sChar->setTexture(tex1);
-			sChar->draw();
-		}
-		else{
-			xOffset = 1;
-			newLineIndex.pop();
-			nlOffset += scale;
-		}
-	}
-
-	glBindTexture(GL_TEXTURE_2D,currTexture);
-	glBindFramebuffer(GL_FRAMEBUFFER,currFramebuffer);
-
-	tex = stringTex;
-
-	glViewport(currViewport[0],currViewport[1],currViewport[2],currViewport[3]);
-
-	FT_Done_Face(face);
-	//flipY();
-	glfwMakeContextCurrent(currWindow);
-}*/

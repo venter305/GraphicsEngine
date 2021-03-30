@@ -1,8 +1,6 @@
 #include "graphicsEngine.h"
 #include <iostream>
 
-using namespace std;
-
 Input GraphicsEngine::input;
 GUIManager GraphicsEngine::guiMan;
 
@@ -10,9 +8,9 @@ GLFWwindow *GraphicsEngine::window = nullptr;
 std::string GraphicsEngine::title;
 void (*GraphicsEngine::mainLoop)(GLFWwindow*,double);
 
-void GraphicsEngine::Init(int w,int h,string name,void (*renderFunc)(GLFWwindow*,double)){
-	title = name;
-	mainLoop = renderFunc;
+void GraphicsEngine::Init(int w,int h,string name,void (*renderFunc)(GLFWwindow*,double)):width(w),height(h),title(name),mainLoop(renderFunc){
+	// title = name;
+	// mainLoop = renderFunc;
 
 	if (!glfwInit()){
 		return;
@@ -57,7 +55,7 @@ void GraphicsEngine::Init(int w,int h,string name,void (*renderFunc)(GLFWwindow*
 }
 
 void GraphicsEngine::Run(){
-	float startTime = glfwGetTime();
+	//float startTime = glfwGetTime();
 	float dTime = 0;
 	int y = 0;
 
