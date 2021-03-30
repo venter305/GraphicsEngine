@@ -4,13 +4,17 @@
 Input GraphicsEngine::input;
 GUIManager GraphicsEngine::guiMan;
 
+int GraphicsEngine::width;
+int GraphicsEngine::height;
 GLFWwindow *GraphicsEngine::window = nullptr;
 std::string GraphicsEngine::title;
 void (*GraphicsEngine::mainLoop)(GLFWwindow*,double);
 
-void GraphicsEngine::Init(int w,int h,string name,void (*renderFunc)(GLFWwindow*,double)):width(w),height(h),title(name),mainLoop(renderFunc){
-	// title = name;
-	// mainLoop = renderFunc;
+void GraphicsEngine::Init(int w,int h,std::string name,void (*renderFunc)(GLFWwindow*,double)){
+	 width = w;
+	 height = h;
+	 title = name;
+	 mainLoop = renderFunc;
 
 	if (!glfwInit()){
 		return;
@@ -64,7 +68,7 @@ void GraphicsEngine::Run(){
 		y++;
 		mainLoop(window,glfwGetTime());
 		if (glfwGetTime()-dTime >= 1){
-			glfwSetWindowTitle(window,(title + " - Program FPS:" + to_string(y)).c_str());
+			glfwSetWindowTitle(window,(title + " - Program FPS:" + std::to_string(y)).c_str());
 			y = 0;
 			dTime = glfwGetTime();
 		}
