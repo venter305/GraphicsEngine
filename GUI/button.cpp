@@ -13,7 +13,7 @@ Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),GLFWwindo
 	glfwMakeContextCurrent(context);
 
 	//Text
-	text = new Text(xPos,yPos,12,"", "/usr/share/fonts/TTF/DejaVuSerif.ttf");
+	text = new Text(xPos,yPos,15,"");
 	textAlignment = TextAlignment::Center;
 
 	action = action_func;

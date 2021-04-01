@@ -17,6 +17,7 @@ class TextInput: public Button{
 		std::string inputMask;
 
 		TextInput(int,int,int,int,std::string,void(*)(TextInput*),std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		TextInput(int,int,int,int,std::string,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 		TextInput(int,int,int,int,GLFWwindow*,std::string,void(*)(TextInput*),std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
 		void addCharacter(char);
@@ -28,5 +29,5 @@ class TextInput: public Button{
 		void clickAction(int,int) override;
 		void keyInput(std::vector<int>);
 
-		void (*disableAction)(TextInput*);
+		void (*disableAction)(TextInput*) = nullptr;
 };
