@@ -6,10 +6,10 @@ public:
   enum EventType{
     None = 0,
     Key = 1,
-    Character = 2,
-    MouseCursor = 3,
-    MouseButton = 4,
-    Window = 5
+    Character = 1<<1,
+    MouseCursor = 1<<2,
+    MouseButton = 1<<3,
+    Window = 1<<4
   };
 
   Event();

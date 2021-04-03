@@ -245,6 +245,3 @@ if(!success)
 bool Panel::checkBoundingBox(int x, int y){
 	return (x >= xPos && x <= (xPos+width) && y >= yPos && y <= (yPos+height));
 }
-
-void Panel::clickAction(int posX,int posY){
-}

@@ -12,6 +12,9 @@ TextInput::TextInput(int x,int y,int w,int h,GLFWwindow *window,string t,void(*a
 	//Init
 	//text = new Text(0,0,15,t,"/usr/share/fonts/TTF/DejaVuSerif.ttf");
 
+	enableMouseEvents = true;
+	enableKeyEvents = true;
+
 	disableAction = action_func;
 	setEnabled(false);
 	//drawText();
@@ -66,6 +69,43 @@ void TextInput::setStateColors(float eColor[3], float dColor[3]){
 	setDisabledColor(dColor);
 }
 
-void TextInput::clickAction(int posX,int posY){
-	setEnabled(checkBoundingBox(posX,posY));
+void TextInput::MouseEventAction(Event &ev){
+	switch(ev.GetType()){
+		case Event::MouseButton:
+			{
+				MouseButtonEvent *mEv = (MouseButtonEvent*)&ev;
+				if (mEv->GetButtonType() != MouseButtonEvent::ButtonType::Left || mEv->GetButtonState() != MouseButtonEvent::ButtonState::Pressed)
+					break;
+				setEnabled(checkBoundingBox(mEv->GetMouseX(),mEv->GetMouseY()));
+			}
+			break;
+
+	}
+}
+
+void TextInput::KeyEventAction(Event &ev){
+	switch(ev.GetType()){
+		case Event::Key:
+			{
+				int keyCode = static_cast<KeyEvent*>(&ev)->GetKeyCode();
+				int keyState = static_cast<KeyEvent*>(&ev)->GetKeyState();
+				if (keyState == KeyEvent::KeyState::Released)
+					break;
+
+				if(!enabled)
+					break;
+				if (keyCode == GLFW_KEY_BACKSPACE)
+					removeCharacter();
+				else if (keyCode == GLFW_KEY_ENTER)
+					setEnabled(false);
+			}
+			break;
+		case Event::Character:
+			{
+				unsigned int charCode = static_cast<CharEvent*>(&ev)->GetCharCode();
+				if (enabled)
+					addCharacter(charCode);
+			}
+			break;
+	}
 }

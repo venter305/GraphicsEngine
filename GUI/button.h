@@ -25,7 +25,8 @@ class Button : public Panel{
 		Button(int,int,int,int,void(*)(Button*),GLFWwindow*,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 		virtual ~Button();
 		void (*action)(Button*);
-		virtual void clickAction(int,int);
+		virtual void MouseEventAction(Event& ev);
+		virtual void KeyEventAction(Event& ev);
 
 		std::string GetText(){return text->GetText();}
 

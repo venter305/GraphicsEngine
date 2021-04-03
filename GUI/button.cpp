@@ -8,6 +8,7 @@ Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),string vs
 
 Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),GLFWwindow *window,string vsName, string fsName): Panel(x,y,w,h,window,vsName,fsName){
 	id = -1;
+	enableMouseEvents = true;
 
 	GLFWwindow *currWindow = glfwGetCurrentContext();
 	glfwMakeContextCurrent(context);
@@ -79,7 +80,22 @@ void Button::setBackgroundColor(float c1,float c2,float c3){
 	setColor(color[0],color[1],color[2],1.0f);
 }
 
-void Button::clickAction(int xPos,int yPos){
-	if (checkBoundingBox(xPos,yPos))
-		action(this);
+void Button::MouseEventAction(Event& ev){
+	switch (ev.GetType()){
+		case Event::MouseButton:
+			{
+				MouseButtonEvent *mEv = (MouseButtonEvent*)&ev;
+				if (mEv->GetButtonType() != MouseButtonEvent::ButtonType::Left || mEv->GetButtonState() != MouseButtonEvent::ButtonState::Pressed)
+					break;
+				int xPos = mEv->GetMouseX();
+				int yPos = mEv->GetMouseY();
+				if (checkBoundingBox(xPos,yPos))
+					action(this);
+			}
+			break;
+	}
+}
+
+void Button::KeyEventAction(Event &ev){
+
 }

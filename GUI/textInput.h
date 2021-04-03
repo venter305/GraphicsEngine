@@ -26,8 +26,9 @@ class TextInput: public Button{
 		void setEnabledColor(float[3]);
 		void setDisabledColor(float[3]);
 		void setStateColors(float[3],float[3]);
-		void clickAction(int,int) override;
 		void keyInput(std::vector<int>);
 
+		virtual void MouseEventAction(Event &ev);
+		virtual void KeyEventAction(Event &ev); 
 		void (*disableAction)(TextInput*) = nullptr;
 };

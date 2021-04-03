@@ -33,6 +33,9 @@ class Text : public GUIElement{
 		void setFontSize(float);
 		void setTextColor(float,float,float);
 
+		virtual void MouseEventAction(Event &ev){};
+		virtual void KeyEventAction(Event &ev){};
+
 		std::string GetText(){return text;};
 
 

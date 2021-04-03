@@ -1,13 +1,17 @@
 #pragma once
 
-//test
+#include "../Input/Input.h"
 
 class GUIElement{
 public:
+  bool enableMouseEvents = false;
+  bool enableKeyEvents = false;
+
   virtual void draw() = 0;
 
   void SetId(int _id){id = _id;}
-  virtual void clickAction(int mouseX,int mouseY){};
+  virtual void MouseEventAction(Event& ev){};
+  virtual void KeyEventAction(Event& ev){};
 
 protected:
   int id;

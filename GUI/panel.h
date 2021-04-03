@@ -53,7 +53,8 @@ class Panel : public GUIElement{
 		void changeContext(GLFWwindow*);
 		void setShaders(std::string,std::string);
 		bool checkBoundingBox(int,int);
-		virtual void clickAction(int,int);
+		virtual void MouseEventAction(Event& ev){};
+		virtual void KeyEventAction(Event& ev){};
 
 private:
 		void SetMVP();

@@ -1,57 +1,13 @@
 #include <iostream>
 #include "GraphicsEngine/graphicsEngine.h"
 
-float bColor = 0.0f;
-bool inc =  false;
+static float bColor = 0.0f;
+static bool inc =  false;
+static int bCount = 0;
 
-int bCount = 0;
-
-std::vector<Button*> buttons;
-std::vector<TextInput*> textInputs;
-
-void btn_action(Button* btn){
-	bCount++;
-}
 
 void OnEvent(Event &ev){
-	switch (ev.GetType()){
-		case Event::Key:
-			{
-				int keyCode = static_cast<KeyEvent*>(&ev)->GetKeyCode();
-				int keyState = static_cast<KeyEvent*>(&ev)->GetKeyState();
-				if (keyState == KeyEvent::KeyState::Released)
-					break;
-				for (TextInput* tIn : textInputs){
-					if(!tIn->enabled)
-						continue;
-					if (keyCode == GLFW_KEY_BACKSPACE)
-						tIn->removeCharacter();
-					else if (keyCode == GLFW_KEY_ENTER)
-						tIn->setEnabled(false);
-				}
-			}
-			break;
-		case Event::Character:
-			{
-				unsigned int charCode = static_cast<CharEvent*>(&ev)->GetCharCode();
-				for (TextInput* tIn : textInputs){
-					if (!tIn->enabled)
-						continue;
-					tIn->addCharacter(charCode);
-				}
-			}
-			break;
-		case Event::MouseButton:
-			MouseButtonEvent *mEv = static_cast<MouseButtonEvent*>(&ev);
-			if (mEv->GetButtonType() != MouseButtonEvent::ButtonType::Left || mEv->GetButtonState() != MouseButtonEvent::ButtonState::Pressed)
-				break;
-			double xPos,yPos;
-		  GraphicsEngine::input.GetMousePos(xPos,yPos);
-			for (Button *btn : buttons){
-				btn->clickAction(xPos,yPos);
-			}
-			break;
-	}
+	GraphicsEngine::guiMan.HandleEvent(ev);
 }
 
 void GUIinit(){
@@ -81,8 +37,6 @@ void GUIinit(){
 	alphaPanel_front->setColor(1.0f,0.0f,0.0f,0.5f);
 	GraphicsEngine::guiMan.addElement(alphaPanel_front);
 
- //std::string fontPath = "./GraphicsEngine/freefont/FreeSerif.otf";
-
 	//Text: basic test
 	std::shared_ptr<Text> textBasic = std::make_shared<Text>(0,0,0,"NULL");
 	textBasic->setPos(col2,450);
@@ -102,12 +56,13 @@ void GUIinit(){
 	GraphicsEngine::guiMan.addElement(colorText);
 
 	//Button: basic test
-	std::shared_ptr<Button> btnBasic = std::make_shared<Button>(350,425,100,25,btn_action);
+	std::shared_ptr<Button> btnBasic = std::make_shared<Button>(350,425,100,25,[](Button *btn){
+		bCount++;
+	});
 	btnBasic->setColor(0.8f,0.8f,0.8f,1.0f);
 	btnBasic->setText("Button");
 	btnBasic->setTextSize(15);
 	btnBasic->setTextColor(0.0,0.0,0.0);
-	buttons.push_back(btnBasic.get());
 	GraphicsEngine::guiMan.addElement(btnBasic);
 	std::shared_ptr<Text> btnCount = std::make_shared<Text>(480,425,20,"Count: " + std::to_string(bCount));
 	GraphicsEngine::guiMan.addElement(btnCount,200);
@@ -119,8 +74,6 @@ void GUIinit(){
 	textInBasic->setEnabledColor(enableColor);
 	textInBasic->setDisabledColor(disableColor);
 	textInBasic->setTextAlignment(Button::TextAlignment::Left);
-	buttons.push_back(textInBasic.get());
-	textInputs.push_back(textInBasic.get());
 	GraphicsEngine::guiMan.addElement(textInBasic,300);
 
 	std::shared_ptr<Text> textInOutput = std::make_shared<Text>(350,250,20,textInBasic->text->text);
@@ -135,7 +88,6 @@ void renderLoop(GLFWwindow *window,double dTime){
 
 	float rColor = 0.0f;
 	float gColor = 0.0f;
-
 
 	for (int i=0;i<100;i++){
 		for (int j=0;j<100;j++){
@@ -162,22 +114,15 @@ void renderLoop(GLFWwindow *window,double dTime){
 		bColor = 0;
 	}
 
-	GLbyte test[10000*3];
-	for (int i=0;i<30000;i++){
-		test[i] = 255;
-	}
-
-
-	auto texPanel = std::static_pointer_cast<Panel>(GraphicsEngine::guiMan.elements[100]);
+	auto texPanel = GraphicsEngine::guiMan.GetElement<Panel>(100);
 	texPanel->UpdateTexture(0,0,100,100,GL_RGB,GL_FLOAT,texData);
 
-	auto btnCount = std::static_pointer_cast<Text>(GraphicsEngine::guiMan.elements[200]);
+	auto btnCount = GraphicsEngine::guiMan.GetElement<Text>(200);
 	btnCount->setText("Count: "+std::to_string(bCount));
 
-	auto textInBasic = std::static_pointer_cast<TextInput>(GraphicsEngine::guiMan.elements[300]);
-
+	auto textInBasic = GraphicsEngine::guiMan.GetElement<TextInput>(300);
 	if (!textInBasic->enabled){
-		auto textInOutput = std::static_pointer_cast<Text>(GraphicsEngine::guiMan.elements[400]);
+		auto textInOutput = GraphicsEngine::guiMan.GetElement<Text>(400);
 		textInOutput->setText(textInBasic->text->text);
 	}
 
