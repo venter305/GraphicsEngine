@@ -24,7 +24,7 @@ class Text : public GUIElement{
 
 		float color[3] = {0.0,0.0,0.0};
 
-		Text(int,int,float,std::string,std::string="./GraphicsEngine/freefont/FreeSerif.otf");
+		Text(int,int,float,std::string,Window* window=nullptr,std::string="./GraphicsEngine/freefont/FreeSerif.otf");
 		virtual ~Text();
 
 		void draw();

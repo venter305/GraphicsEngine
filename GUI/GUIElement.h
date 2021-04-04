@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Input/Input.h"
+#include "../Window.h"
 
 class GUIElement{
 public:
@@ -13,6 +14,9 @@ public:
   virtual void MouseEventAction(Event& ev){};
   virtual void KeyEventAction(Event& ev){};
 
+  Window* GetContext() {return context;};
+
 protected:
+  Window* context = nullptr;
   int id;
 };

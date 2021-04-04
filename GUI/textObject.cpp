@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Text::Text(int x, int y, float scale, std::string t, std::string fontPath) : xPos(x),yPos(y),fontSize(scale),text(t),font(fontPath){
+Text::Text(int x, int y, float scale, std::string t, Window* window,std::string fontPath) : xPos(x),yPos(y),fontSize(scale),text(t),font(fontPath){
 
 	FT_Init_FreeType(&library);
 
@@ -63,7 +63,7 @@ void Text::addCharacter(char c){
 
 	int yOffset = (face->glyph->metrics.height - face->glyph->metrics.horiBearingY)/64 + newLines*(face->height/64);
 
-	Panel *p = new Panel(penX,penY-yOffset,face->glyph->metrics.width/64,face->glyph->metrics.height/64,vertShader,fragShader);
+	Panel *p = new Panel(penX,penY-yOffset,face->glyph->metrics.width/64,face->glyph->metrics.height/64,context,vertShader,fragShader);
 	p->setColor(color[0],color[1],color[2],1.0);
 
 	penX += (face->glyph->metrics.horiAdvance - face->glyph->metrics.horiBearingX)/64;

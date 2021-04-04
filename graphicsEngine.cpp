@@ -2,53 +2,53 @@
 #include <iostream>
 
 Input GraphicsEngine::input;
-GUIManager GraphicsEngine::guiMan;
+//GUIManager GraphicsEngine::guiMan;
 
 int GraphicsEngine::width;
 int GraphicsEngine::height;
-GLFWwindow *GraphicsEngine::window = nullptr;
-std::string GraphicsEngine::title;
+std::vector<Window*> GraphicsEngine::windows;
+
 void (*GraphicsEngine::mainLoop)(GLFWwindow*,double);
 
-void GraphicsEngine::Init(int w,int h,std::string name,void (*renderFunc)(GLFWwindow*,double)){
-	 width = w;
-	 height = h;
-	 title = name;
-	 mainLoop = renderFunc;
-
+void GraphicsEngine::Init(){
 	if (!glfwInit()){
 		return;
 	}
-	window = glfwCreateWindow(w,h,name.c_str(),NULL, NULL);
+
+}
+
+void GraphicsEngine::AddWindow(Window* newWindow){
+	GLFWwindow *window = glfwCreateWindow(newWindow->width,newWindow->height,newWindow->title.c_str(),NULL, NULL);
+	newWindow->window = window;
 	glfwMakeContextCurrent(window);
+	glfwSetWindowUserPointer(window,newWindow);
 
 	glfwSetKeyCallback(window,[](GLFWwindow* window, int key, int scancode, int action, int mods){
-		KeyEvent *ev = new KeyEvent(key,(KeyEvent::KeyState)action);
-		input.onEvent(*ev);
-		delete ev;
+		glfwMakeContextCurrent(window);
+		KeyEvent ev(key,(KeyEvent::KeyState)action);
+		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
 	});
 
 	glfwSetCharCallback(window,[](GLFWwindow* window,unsigned int keycode){
-		CharEvent *ev = new CharEvent(keycode);
-		input.onEvent(*ev);
-		delete ev;
+		glfwMakeContextCurrent(window);
+		CharEvent ev(keycode);
+		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
 	});
 
 	glfwSetMouseButtonCallback(window,[](GLFWwindow* window, int button, int action, int mods){
+		glfwMakeContextCurrent(window);
 		double mouseX,mouseY;
-		input.GetMousePos(mouseX,mouseY);
-		MouseButtonEvent *ev = new MouseButtonEvent((MouseButtonEvent::ButtonType)button,(MouseButtonEvent::ButtonState)action,mouseX,mouseY);
-		input.onEvent(*ev);
-		delete ev;
+		input.GetMousePos(window,mouseX,mouseY);
+		MouseButtonEvent ev((MouseButtonEvent::ButtonType)button,(MouseButtonEvent::ButtonState)action,mouseX,mouseY);
+		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
 	});
 
 	glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos,double yPos){
-		MouseMoveEvent *ev = new MouseMoveEvent(xPos,yPos);
-		input.onEvent(*ev);
-		delete ev;
+		glfwMakeContextCurrent(window);
+		MouseMoveEvent ev(xPos,yPos);
+		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
 	});
 
-	input.window = window;
 
 	//Enable transparent textures
 	glEnable(GL_TEXTURE_2D);
@@ -56,6 +56,7 @@ void GraphicsEngine::Init(int w,int h,std::string name,void (*renderFunc)(GLFWwi
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glewInit();
 
+	windows.push_back(newWindow);
 }
 
 void GraphicsEngine::Run(){
@@ -63,15 +64,31 @@ void GraphicsEngine::Run(){
 	float dTime = 0;
 	int y = 0;
 
-	while(!glfwWindowShouldClose(window)){
-		glfwPollEvents();
+	for (auto window : windows){
+		glfwMakeContextCurrent(window->window);
+		window->OnStartup();
+	}
+
+	while(!windows.empty()){
 		y++;
-		mainLoop(window,glfwGetTime());
-		if (glfwGetTime()-dTime >= 1){
-			glfwSetWindowTitle(window,(title + " - Program FPS:" + std::to_string(y)).c_str());
-			y = 0;
-			dTime = glfwGetTime();
+		glfwPollEvents();
+		for (auto it = windows.begin(); it != windows.end(); it++){
+			auto window = *it;
+			//mainLoop(window,glfwGetTime());
+			glfwMakeContextCurrent(window->window);
+			window->OnUpdate(glfwGetTime());
+			//std::string title = window.name;
+			// if (glfwGetTime()-dTime >= 1){
+			// 	glfwSetWindowTitle(window,(title + " - Program FPS:" + std::to_string(y)).c_str());
+			// 	y = 0;
+			// 	dTime = glfwGetTime();
+			// }
+			glfwSwapBuffers(window->window);
+			if (glfwWindowShouldClose(window->window)){
+				window->OnShutdown();
+				delete window;
+				windows.erase(it--);
+			}
 		}
-		glfwSwapBuffers(window);
 	}
 }

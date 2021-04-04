@@ -20,24 +20,39 @@ GLuint Panel::indices[] = {
 			2,3,0
 		};
 
-Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, GLFWwindow *window,std::string vsName,std::string fsName) : xPos(x),yPos(y),width(w),height(h),vShader(vsName),fShader(fsName), context(window){
+Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string vsName,std::string fsName) : xPos(x),yPos(y),width(w),height(h),vShader(vsName),fShader(fsName){
 	GLint windowData[4];
 	glGetIntegerv(GL_VIEWPORT,windowData);
 
+
 	//Init
 	id = -1;
-	if (!context)
-		context = glfwGetCurrentContext();
-
+	enableMouseEvents = true;
+	if (!window)
+		context = ((Window*)glfwGetWindowUserPointer(glfwGetCurrentContext()));
+	else
+		context = window;
 	float pixels[3] = {1.0f,1.0f,1.0f};
 	CreateTexture(1,1,GL_RGB,GL_FLOAT,pixels);
 	//Setup Context specific values
-	changeContext(context);
+	//Shaders
+	setShaders(vShader,fShader);
+
+	//Set the Model,view,projection matrices
+	SetMVP();
+
+	//Generate Buffers
+	glGenBuffers(1,&vboId);
+	glGenBuffers(1,&iboId);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	glBufferData(GL_ARRAY_BUFFER, (sizeof(GLfloat)*16), vertices, GL_STATIC_DRAW);
+
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, indices, GL_STATIC_DRAW);
 
 	setColor(1.0f,1.0f,1.0f,1.0f);
-}
-
-Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h,std::string vsName,std::string fsName) : Panel(x,y,w,h,NULL,vsName,fsName){
 }
 
 Panel::~Panel(){
@@ -153,7 +168,7 @@ void Panel::SetMVP(){
 }
 
 void Panel::changeContext(GLFWwindow *window){
-	context = window;
+	//context = window;
 	//GLFWwindow *currWindow = glfwGetCurrentContext();
 	//glfwMakeContextCurrent(window);
 

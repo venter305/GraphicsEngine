@@ -2,8 +2,10 @@
 
 #include <map>
 #include <memory>
-#include "GUIElement.h"
+#include "../Input/Input.h"
+//#include "GUIElement.h"
 
+class GUIElement;
 class GUIManager{
 	public:
 		std::map<int,std::shared_ptr<GUIElement>> elements;

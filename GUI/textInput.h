@@ -16,9 +16,7 @@ class TextInput: public Button{
 		double inTimeMax;
 		std::string inputMask;
 
-		TextInput(int,int,int,int,std::string,void(*)(TextInput*),std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
-		TextInput(int,int,int,int,std::string,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
-		TextInput(int,int,int,int,GLFWwindow*,std::string,void(*)(TextInput*),std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		TextInput(int,int,int,int,std::string t,void(*)(TextInput*)=nullptr,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
 		void addCharacter(char);
 		void removeCharacter();
@@ -29,6 +27,6 @@ class TextInput: public Button{
 		void keyInput(std::vector<int>);
 
 		virtual void MouseEventAction(Event &ev);
-		virtual void KeyEventAction(Event &ev); 
+		virtual void KeyEventAction(Event &ev);
 		void (*disableAction)(TextInput*) = nullptr;
 };

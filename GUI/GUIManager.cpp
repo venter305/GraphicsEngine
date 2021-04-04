@@ -1,4 +1,5 @@
 #include "GUIManager.h"
+#include "GUIElement.h"
 #include <iostream>
 
 GUIManager::GUIManager(){
@@ -22,8 +23,9 @@ int GUIManager::addElement(std::shared_ptr<GUIElement> element,int id){
 
 void GUIManager::HandleEvent(Event& ev){
 	for (auto element : elements){
-		if (element.second->enableMouseEvents && ev.GetType()&(Event::MouseCursor|Event::MouseButton))
+		if (element.second->enableMouseEvents && ev.GetType()&(Event::MouseCursor|Event::MouseButton)){
 			element.second->MouseEventAction(ev);
+		}
 		if (element.second->enableKeyEvents && ev.GetType()&(Event::Key|Event::Character))
 			element.second->KeyEventAction(ev);
 	}

@@ -29,12 +29,7 @@ class Panel : public GUIElement{
 		GLuint fbo;
 		GLuint tex = -1;
 
-		//Window the panel is attached to
-		GLFWwindow *context = 0;
-
-		Panel(GLuint,GLuint,GLuint,GLuint,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
-
-		Panel(GLuint,GLuint,GLuint,GLuint,GLFWwindow*,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		Panel(GLuint,GLuint,GLuint,GLuint,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
 		virtual ~Panel();
 

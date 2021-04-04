@@ -20,9 +20,7 @@ class Button : public Panel{
 		GLuint textFbo;
 		GLuint textTexture;
 
-		Button(int,int,int,int,void(*)(Button*),std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
-
-		Button(int,int,int,int,void(*)(Button*),GLFWwindow*,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		Button(int,int,int,int,void(*)(Button*),Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 		virtual ~Button();
 		void (*action)(Button*);
 		virtual void MouseEventAction(Event& ev);

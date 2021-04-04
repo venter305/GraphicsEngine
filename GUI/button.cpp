@@ -1,25 +1,16 @@
 #include "button.h"
 #include <iostream>
 
-using namespace std;
 
-Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),string vsName, string fsName): Button(x,y,w,h,action_func,NULL){
-}
-
-Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),GLFWwindow *window,string vsName, string fsName): Panel(x,y,w,h,window,vsName,fsName){
+Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),Window* window,std::string vsName, std::string fsName): Panel(x,y,w,h,window,vsName,fsName){
 	id = -1;
 	enableMouseEvents = true;
 
-	GLFWwindow *currWindow = glfwGetCurrentContext();
-	glfwMakeContextCurrent(context);
-
 	//Text
-	text = new Text(xPos,yPos,15,"");
+	text = new Text(xPos,yPos,15,"",context);
 	textAlignment = TextAlignment::Center;
 
 	action = action_func;
-
-	glfwMakeContextCurrent(currWindow);
 }
 
 Button::~Button(){
@@ -74,10 +65,7 @@ void Button::setTextPos(int xOffset,int yOffset){
 
 //Change Background color
 void Button::setBackgroundColor(float c1,float c2,float c3){
-	color[0] = c1;
-	color[1] = c2;
-	color[2] = c3;
-	setColor(color[0],color[1],color[2],1.0f);
+	setColor(c1,c2,c3,1.0f);
 }
 
 void Button::MouseEventAction(Event& ev){
@@ -89,8 +77,9 @@ void Button::MouseEventAction(Event& ev){
 					break;
 				int xPos = mEv->GetMouseX();
 				int yPos = mEv->GetMouseY();
-				if (checkBoundingBox(xPos,yPos))
+				if (checkBoundingBox(xPos,yPos)){
 					action(this);
+				}
 			}
 			break;
 	}

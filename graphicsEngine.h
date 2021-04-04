@@ -12,19 +12,21 @@
 #include "GUI/button.h"
 #include "GUI/textInput.h"
 
+#include "Window.h"
+
 class GraphicsEngine{
 private:
 	static int width;
 	static int height;
-	static GLFWwindow *window;
-	static std::string title;
+	static std::vector<Window*> windows;
 
 public:
 
 	static Input input;
-	static GUIManager guiMan;
+	//static GUIManager guiMan;
 
-	static void Init(int,int,std::string,void(*)(GLFWwindow*,double));
+	static void AddWindow(Window* window);
+	static void Init();
 	static void Run();
 
 private:

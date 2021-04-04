@@ -12,13 +12,11 @@ class Input{
 
 public:
 
-  GLFWwindow *window;
-
   Input();
   ~Input();
 
   void (*onEvent)(Event&);
-  void GetMousePos(double&,double&);
+  void GetMousePos(GLFWwindow* window,double& x,double& y);
 
 private:
 };

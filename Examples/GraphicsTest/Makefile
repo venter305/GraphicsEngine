@@ -12,7 +12,7 @@ INCLUDE=-I./eigen -I/usr/include/freetype2
 
 LFLAGS=-lGLEW -lglfw -lGL -lfreetype
 
-CXXFLAGS=-O2 $(LFLAGS) $(INCLUDE)
+CXXFLAGS= $(LFLAGS) $(INCLUDE)
 
 gtest: $(OBJ)
 	g++ $(OBJ) -o gtest $(CXXFLAGS)
