@@ -94,7 +94,6 @@ class MainWindow : public Window{
 				for (int j=0;j<100;j++){
 					texData[i][j][0] = rColor;
 					texData[i][j][1] = gColor;
-
 					texData[i][j][2] = bColor;
 					if (gColor < 1.0f)
 						gColor += (1.0f/100.0f);
@@ -102,9 +101,7 @@ class MainWindow : public Window{
 				gColor = 0;
 				if (rColor < 1.0f)
 					rColor += (1.0f/100.0f);
-
 			}
-
 			if (bColor < 1.0f && inc)
 				bColor += (1.0f/255.0f);
 			else if (bColor > 0.0f){
