@@ -1,14 +1,16 @@
 #include <iostream>
 #include "GraphicsEngine/graphicsEngine.h"
 
-
-
 class MainWindow : public Window{
 	private:
 		float bColor = 0.0f;
 		bool inc =  false;
 		int bCount = 0;
 	public:
+
+		MainWindow(int w,int h,std::string name):Window(w,h,name){
+		}
+
 		void OnStartup(){
 			glClearColor(0.9f,0.9f,0.9f,1.0f);
 
@@ -56,8 +58,8 @@ class MainWindow : public Window{
 			guiMan.addElement(colorText);
 
 			//Button: basic test
-			std::shared_ptr<Button> btnBasic = std::make_shared<Button>(350,425,100,25,[](Button *btn){
-				((MainWindow*)btn->GetContext())->bCount++;
+			std::shared_ptr<Button> btnBasic = std::make_shared<Button>(350,425,100,25,[&](Button *btn){
+				bCount++;
 			});
 			btnBasic->setColor(0.8f,0.8f,0.8f,1.0f);
 			btnBasic->setText("Button");
@@ -142,12 +144,7 @@ class MainWindow : public Window{
 int main(){
 	GraphicsEngine::Init();
 
-	MainWindow *window = new MainWindow();
-	MainWindow *window2 = new MainWindow();
-	window->Init(640,480,"Graphics Test");
-	window2->Init(640,480,"Graphics Test 2");
-	GraphicsEngine::AddWindow(window);
-	GraphicsEngine::AddWindow(window2);
+	GraphicsEngine::AddWindow(new MainWindow(640,480,"Graphics Test"));
 	GraphicsEngine::Run();
 
 	return 0;

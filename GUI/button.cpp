@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Button::Button(int x,int y, int w, int h, void (*action_func)(Button*),Window* window,std::string vsName, std::string fsName): Panel(x,y,w,h,window,vsName,fsName){
+Button::Button(int x,int y, int w, int h, std::function<void(Button*)> action_func,Window* window,std::string vsName, std::string fsName): Panel(x,y,w,h,window,vsName,fsName){
 	id = -1;
 	enableMouseEvents = true;
 

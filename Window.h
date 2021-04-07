@@ -11,6 +11,8 @@ class Window {
 
     std::string title = "New Window";
 
+    Window(int w,int h,std::string name):width(w),height(h),title(name){};
+
     void Init(int w,int h,std::string name){
       width = w;
       height = h;
