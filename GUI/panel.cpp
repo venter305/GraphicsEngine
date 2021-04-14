@@ -86,30 +86,20 @@ void Panel::draw(){
 	//glfwMakeContextCurrent(currWindow);
 }
 
-//Set the texture
-void Panel::setTexture(GLuint texture){
-		glDeleteTextures(1,&tex);
-		tex = texture;
+void Panel::OnContextResize(int w,int h){
+	// float wNorm = width/context->width;
+	// float hNorm = height/context->height;
+	// float xNorm = xPos/context->width;
+	// float yNorm = yPos/context->height;
+	//
+	// xPos = xNorm * w;
+	// yPos = yNorm * h;
+	// width = wNorm * w;
+  // height = hNorm * h;
+
+	SetMVP(w,h);
 }
 
-void Panel::CreateTexture(int width, int height,GLenum format,GLenum type,void* pixels){
-
-	glDeleteTextures(1,&tex);
-
-	glGenTextures(1,&tex);
-	glBindTexture(GL_TEXTURE_2D,tex);
-	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,format,type,pixels);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-}
-
-void Panel::UpdateTexture(int xOffset,int yOffset,int width,int height,GLenum format,GLenum type,void* pixels){
-	glBindTexture(GL_TEXTURE_2D,tex);
-	glTexSubImage2D(GL_TEXTURE_2D,xOffset,yOffset,0,width,height,format,type,pixels);
-}
 
 //Set the position
 void Panel::setPos(GLuint x,GLuint y){
@@ -125,6 +115,49 @@ void Panel::setSize(GLuint w, GLuint h){
 	SetMVP();
 }
 
+void Panel::SetMVP(int contextW, int contextH){
+	float aspectRatio = (float)contextW/(float)contextH;
+
+	glm::mat4 proj = glm::ortho(0.0f,aspectRatio,0.0f,1.0f,-1.0f,1.0f);
+	glm::mat4 view = glm::scale(glm::mat4(1.0f),glm::vec3(1/context->baseHeight,1/context->baseHeight,0));
+	glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(xPos,yPos,0.0f));
+	model = glm::scale(model,glm::vec3(width,height,1.0f));
+
+	glm::mat4 mvp = proj*view*model;
+
+	glUseProgram(shaderId);
+	int location = glGetUniformLocation(shaderId,"mvp");
+	glUniformMatrix4fv(location,1,GL_FALSE,&mvp[0][0]);
+}
+
+void Panel::SetMVP(){
+	SetMVP(context->width,context->height);
+}
+
+//Set the texture
+void Panel::setTexture(GLuint texture){
+	glDeleteTextures(1,&tex);
+	tex = texture;
+}
+
+void Panel::CreateTexture(int w, int h,GLenum format,GLenum type,void* pixels){
+
+	glDeleteTextures(1,&tex);
+
+	glGenTextures(1,&tex);
+	glBindTexture(GL_TEXTURE_2D,tex);
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,w,h,0,format,type,pixels);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+}
+
+void Panel::UpdateTexture(int xOffset,int yOffset,int w,int h,GLenum format,GLenum type,void* pixels){
+	glBindTexture(GL_TEXTURE_2D,tex);
+	glTexSubImage2D(GL_TEXTURE_2D,xOffset,yOffset,0,w,h,format,type,pixels);
+}
 
 //Set the Color tint of the texture
 void Panel::setColor(float r,float g,float b,float a){
@@ -151,21 +184,6 @@ void Panel::flipY(){
 	SetMVP();
 }
 
-void Panel::SetMVP(){
-	int windowWidth,windowHeight;
-	GLFWwindow *currWindow = glfwGetCurrentContext();
-	glfwGetWindowSize(currWindow,&windowWidth,&windowHeight);
-
-	glm::mat4 proj = glm::ortho(0.0f,(float)windowWidth,0.0f,(float)windowHeight,-1.0f,1.0f);
-	glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3((float)xPos,(float)yPos,0.0f));
-	model = glm::scale(model,glm::vec3((float)width,(float)height,1.0f));
-
-	glm::mat4 mvp = proj*model;
-
-	glUseProgram(shaderId);
-	int location = glGetUniformLocation(shaderId,"mvp");
-	glUniformMatrix4fv(location,1,GL_FALSE,&mvp[0][0]);
-}
 
 void Panel::changeContext(GLFWwindow *window){
 	//context = window;

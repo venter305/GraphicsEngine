@@ -14,6 +14,8 @@ public:
   virtual void MouseEventAction(Event& ev){};
   virtual void KeyEventAction(Event& ev){};
 
+  virtual void OnContextResize(int width,int height){};
+
   Window* GetContext() {return context;};
 
 protected:

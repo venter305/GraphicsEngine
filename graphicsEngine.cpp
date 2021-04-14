@@ -23,30 +23,40 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 	glfwMakeContextCurrent(window);
 	glfwSetWindowUserPointer(window,newWindow);
 
-	glfwSetKeyCallback(window,[](GLFWwindow* window, int key, int scancode, int action, int mods){
-		glfwMakeContextCurrent(window);
+	glfwSetKeyCallback(window,[](GLFWwindow* win, int key, int scancode, int action, int mods){
+		glfwMakeContextCurrent(win);
 		KeyEvent ev(key,(KeyEvent::KeyState)action);
-		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
+		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
 	});
 
-	glfwSetCharCallback(window,[](GLFWwindow* window,unsigned int keycode){
-		glfwMakeContextCurrent(window);
+	glfwSetCharCallback(window,[](GLFWwindow* win,unsigned int keycode){
+		glfwMakeContextCurrent(win);
 		CharEvent ev(keycode);
-		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
+		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
 	});
 
-	glfwSetMouseButtonCallback(window,[](GLFWwindow* window, int button, int action, int mods){
-		glfwMakeContextCurrent(window);
+	glfwSetMouseButtonCallback(window,[](GLFWwindow* win, int button, int action, int mods){
+		glfwMakeContextCurrent(win);
 		double mouseX,mouseY;
-		input.GetMousePos(window,mouseX,mouseY);
+		input.GetMousePos(((Window*)glfwGetWindowUserPointer(win)),mouseX,mouseY);
 		MouseButtonEvent ev((MouseButtonEvent::ButtonType)button,(MouseButtonEvent::ButtonState)action,mouseX,mouseY);
-		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
+		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
 	});
 
-	glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos,double yPos){
-		glfwMakeContextCurrent(window);
+	glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xPos,double yPos){
+		glfwMakeContextCurrent(win);
 		MouseMoveEvent ev(xPos,yPos);
-		((Window*)glfwGetWindowUserPointer(window))->OnEvent(ev);
+		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
+	});
+
+	glfwSetWindowSizeCallback(window,[](GLFWwindow* win,int width,int height){
+		glfwMakeContextCurrent(win);
+		((Window*)glfwGetWindowUserPointer(win))->SetSize(width,height);
+
+		int w,h;
+		glfwGetFramebufferSize(win,&w,&h);
+		glViewport(0,0,w,h);
+
 	});
 
 

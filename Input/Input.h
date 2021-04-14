@@ -8,6 +8,8 @@
 #include "MouseButtonEvent.h"
 #include "MouseMoveEvent.h"
 
+
+class Window;
 class Input{
 
 public:
@@ -16,7 +18,7 @@ public:
   ~Input();
 
   void (*onEvent)(Event&);
-  void GetMousePos(GLFWwindow* window,double& x,double& y);
+  void GetMousePos(Window* window,double& x,double& y);
 
 private:
 };

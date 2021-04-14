@@ -27,6 +27,7 @@ class Button : public Panel{
 		std::function<void(Button*)> action;
 		virtual void MouseEventAction(Event& ev);
 		virtual void KeyEventAction(Event& ev);
+		virtual void OnContextResize(int contextW,int contextH);
 
 		std::string GetText(){return text->GetText();}
 

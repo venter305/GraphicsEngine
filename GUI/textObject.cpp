@@ -6,6 +6,11 @@ Text::Text(int x, int y, float scale, std::string t, Window* window,std::string 
 
 	FT_Init_FreeType(&library);
 
+	if (!window)
+		context = ((Window*)glfwGetWindowUserPointer(glfwGetCurrentContext()));
+	else
+		context = window;
+		
 	setText(t);
 }
 
@@ -13,6 +18,12 @@ Text::~Text(){
 	for (Panel *p : characters)
 		delete p;
 }
+
+void Text::OnContextResize(int contextW,int contextH){
+	for (Panel* p : characters)
+		p->OnContextResize(contextW,contextH);
+}
+
 //Set the text
 void Text::setText(std::string t){
 	text = t;

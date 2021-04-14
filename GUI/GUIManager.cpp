@@ -30,3 +30,10 @@ void GUIManager::HandleEvent(Event& ev){
 			element.second->KeyEventAction(ev);
 	}
 }
+
+void GUIManager::Resize(int width,int height){
+	for (auto element : elements){
+		element.second->OnContextResize(width,height);
+	}
+
+}

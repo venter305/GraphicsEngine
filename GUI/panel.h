@@ -7,10 +7,10 @@
 
 class Panel : public GUIElement{
 	public:
-		int xPos;
-		int yPos;
-		int width;
-		int height;
+		float xPos;
+		float yPos;
+		float width;
+		float height;
 		static GLfloat vertices[];
 
 		static GLuint indices[];
@@ -34,6 +34,7 @@ class Panel : public GUIElement{
 		virtual ~Panel();
 
 		virtual void draw();
+		virtual void OnContextResize(int w,int h);
 
 		void setTexture(GLuint);
 		void CreateTexture(int width,int height,GLenum format,GLenum type, void* pixels);
@@ -52,6 +53,7 @@ class Panel : public GUIElement{
 		virtual void KeyEventAction(Event& ev){};
 
 private:
+		void SetMVP(int w,int h);
 		void SetMVP();
 
 };

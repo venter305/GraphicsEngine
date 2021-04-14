@@ -22,6 +22,11 @@ void Button::draw(){
 	text->draw();
 }
 
+void Button::OnContextResize(int contextW,int contextH){
+	text->OnContextResize(contextW,contextH);
+	Panel::OnContextResize(contextW,contextH);
+}
+
 void Button::setText(std::string txt){
 	text->setText(txt);
 	setTextPos();
