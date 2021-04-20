@@ -6,13 +6,15 @@
 #include FT_FREETYPE_H
 #include <string>
 #include "Input/Input.h"
-#include "GUI/GUIManager.h"
+#include "Window.h"
+
 #include "GUI/panel.h"
 #include "GUI/textObject.h"
 #include "GUI/button.h"
 #include "GUI/textInput.h"
+#include "GUI/MenuBar.h"
 
-#include "Window.h"
+#include "GUI/Layout/ListLayout.h"
 
 class GraphicsEngine{
 private:

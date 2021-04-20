@@ -2,15 +2,17 @@
 #include <iostream>
 
 
-Text::Text(int x, int y, float scale, std::string t, Window* window,std::string fontPath) : xPos(x),yPos(y),fontSize(scale),text(t),font(fontPath){
+Text::Text(int x, int y, float scale, std::string t, Window* window,std::string fontPath) : fontSize(scale),text(t),font(fontPath){
 
 	FT_Init_FreeType(&library);
+	xPos = x;
+	yPos = y;
 
 	if (!window)
 		context = ((Window*)glfwGetWindowUserPointer(glfwGetCurrentContext()));
 	else
 		context = window;
-		
+
 	setText(t);
 }
 
@@ -98,7 +100,7 @@ void Text::addCharacter(char c){
 	characters.push_back(p);
 }
 
-void Text::setPos(int x, int y){
+void Text::setPos(float x, float y){
 	xPos = x;
 	yPos = y;
 

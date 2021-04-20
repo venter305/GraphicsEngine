@@ -1,5 +1,6 @@
 #include "GUIManager.h"
 #include "GUIElement.h"
+#include "Layout/GUILayout.h"
 #include <iostream>
 
 GUIManager::GUIManager(){
@@ -13,12 +14,20 @@ void GUIManager::drawElements(){
 	}
 }
 
+
 int GUIManager::addElement(std::shared_ptr<GUIElement> element,int id){
 	if (id == -1)
 		id = elements.size();
 	element->SetId(id);
 	elements.insert({id,element});
 	return id;
+}
+
+void GUIManager::AddLayout(std::shared_ptr<GUILayout> layout){
+	auto* layoutElements = layout->GetElementList();
+	for (int i=0;i<layout->NumberOfElements();i++){
+		addElement((*layoutElements)[i],(*layoutElements)[i]->GetId());
+	}
 }
 
 void GUIManager::HandleEvent(Event& ev){

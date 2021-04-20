@@ -1,16 +1,10 @@
 #pragma once
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <string>
 #include "GUIElement.h"
 
 class Panel : public GUIElement{
 	public:
-		float xPos;
-		float yPos;
-		float width;
-		float height;
 		static GLfloat vertices[];
 
 		static GLuint indices[];
@@ -40,8 +34,8 @@ class Panel : public GUIElement{
 		void CreateTexture(int width,int height,GLenum format,GLenum type, void* pixels);
 		void UpdateTexture(int xOffset,int yOffset,int width,int height,GLenum format,GLenum type,void* pixels);
 
-		void setPos(GLuint,GLuint);
-		void setSize(GLuint,GLuint);
+		virtual void setPos(float,float);
+		virtual void setSize(float,float);
 		void setColor(float,float,float,float);
 		void flipY();
 		void flipX();

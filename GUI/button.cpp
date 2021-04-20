@@ -22,6 +22,16 @@ void Button::draw(){
 	text->draw();
 }
 
+void Button::setPos(float x,float y){
+	Panel::setPos(x,y);
+	setTextPos();
+}
+
+void Button::setSize(float w,float h){
+	Panel::setSize(w,h);
+	setTextPos();
+}
+
 void Button::OnContextResize(int contextW,int contextH){
 	text->OnContextResize(contextW,contextH);
 	Panel::OnContextResize(contextW,contextH);

@@ -1,4 +1,7 @@
+#include <GL/glew.h>
+
 #include "panel.h"
+
 #include "../glm/glm/glm.hpp"
 #include "../glm/glm/ext/matrix_clip_space.hpp"
 #include "../glm/glm/ext/matrix_transform.hpp"
@@ -20,12 +23,17 @@ GLuint Panel::indices[] = {
 			2,3,0
 		};
 
-Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string vsName,std::string fsName) : xPos(x),yPos(y),width(w),height(h),vShader(vsName),fShader(fsName){
+Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string vsName,std::string fsName) : vShader(vsName),fShader(fsName){
 	GLint windowData[4];
 	glGetIntegerv(GL_VIEWPORT,windowData);
 
 
 	//Init
+	xPos = x;
+	yPos = y;
+	width = w;
+	height = h;
+
 	id = -1;
 	enableMouseEvents = true;
 	if (!window)
@@ -102,14 +110,14 @@ void Panel::OnContextResize(int w,int h){
 
 
 //Set the position
-void Panel::setPos(GLuint x,GLuint y){
+void Panel::setPos(float x,float y){
 	xPos = x;
 	yPos = y;
 	SetMVP();
 }
 
 //Set the size
-void Panel::setSize(GLuint w, GLuint h){
+void Panel::setSize(float w, float h){
 	width = w;
 	height = h;
 	SetMVP();

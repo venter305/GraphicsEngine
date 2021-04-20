@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include "Input/Input.h"
 #include "GUI/GUIManager.h"
@@ -9,12 +10,12 @@ class Window {
     int width = 0;
     int height = 0;
 
-    float baseWidth = 0;
     float baseHeight = 0;
+    float baseWidth = 0;
 
     std::string title = "New Window";
 
-    Window(int w,int h,std::string name):width(w),height(h),title(name),baseWidth(w),baseHeight(h){
+    Window(int w,int h,std::string name):width(w),height(h),title(name),baseHeight(h),baseWidth(w){
     };
 
     void Init(int w,int h,std::string name){

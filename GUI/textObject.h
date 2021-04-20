@@ -10,12 +10,6 @@
 class Text : public GUIElement{
 	public:
 
-		int xPos;
-		int yPos;
-
-		int width;
-		int height;
-
 		float fontSize;
 
 		std::string text;
@@ -29,7 +23,7 @@ class Text : public GUIElement{
 
 		void draw();
 		void setText(std::string);
-		void setPos(int,int);
+		void setPos(float,float);
 		void setFontSize(float);
 		void setTextColor(float,float,float);
 

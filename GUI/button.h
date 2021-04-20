@@ -31,6 +31,9 @@ class Button : public Panel{
 
 		std::string GetText(){return text->GetText();}
 
+		virtual void setSize(float w,float h);
+		virtual void setPos(float x,float y);
+
 		void setText(std::string);
 		void setTextSize(int);
 		void setTextColor(float,float,float);

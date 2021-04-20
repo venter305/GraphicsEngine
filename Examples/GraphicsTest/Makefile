@@ -1,6 +1,7 @@
 define IncludePaths
 GraphicsEngine
 GraphicsEngine/GUI
+GraphicsEngine/GUI/Layout
 GraphicsEngine/Input
 endef
 

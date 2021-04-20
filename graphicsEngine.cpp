@@ -72,7 +72,7 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 void GraphicsEngine::Run(){
 	//float startTime = glfwGetTime();
 	float dTime = 0;
-	int y = 0;
+	int frames = 0;
 
 	for (auto window : windows){
 		glfwMakeContextCurrent(window->window);
@@ -80,25 +80,26 @@ void GraphicsEngine::Run(){
 	}
 
 	while(!windows.empty()){
-		y++;
+		frames++;
 		glfwPollEvents();
 		for (auto it = windows.begin(); it != windows.end(); it++){
 			auto window = *it;
 			//mainLoop(window,glfwGetTime());
 			glfwMakeContextCurrent(window->window);
 			window->OnUpdate(glfwGetTime());
-			//std::string title = window.name;
-			// if (glfwGetTime()-dTime >= 1){
-			// 	glfwSetWindowTitle(window,(title + " - Program FPS:" + std::to_string(y)).c_str());
-			// 	y = 0;
-			// 	dTime = glfwGetTime();
-			// }
+			if (glfwGetTime()-dTime >= 1)
+				glfwSetWindowTitle(window->GetGLFWwindow(),(window->title + " - Program FPS:" + std::to_string(frames)).c_str());
 			glfwSwapBuffers(window->window);
 			if (glfwWindowShouldClose(window->window)){
 				window->OnShutdown();
 				delete window;
 				windows.erase(it--);
 			}
+		}
+
+		if (glfwGetTime()-dTime >= 1){
+			frames = 0;
+			dTime = glfwGetTime();
 		}
 	}
 }

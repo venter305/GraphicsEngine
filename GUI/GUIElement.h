@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../Input/Input.h"
 #include "../Window.h"
 
 class GUIElement{
@@ -8,9 +7,25 @@ public:
   bool enableMouseEvents = false;
   bool enableKeyEvents = false;
 
-  virtual void draw() = 0;
+  float xPos = 0;
+  float yPos = 0;
+  float width = 0;
+  float height = 0;
+
+  virtual void draw(){};
+
+  virtual void setPos(float x,float y){
+    xPos = x;
+    yPos = y;
+  }
+
+  virtual void setSize(float w,float h){
+    width = w;
+    height = h;
+  }
 
   void SetId(int _id){id = _id;}
+  int GetId(){return id;}
   virtual void MouseEventAction(Event& ev){};
   virtual void KeyEventAction(Event& ev){};
 

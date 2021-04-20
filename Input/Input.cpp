@@ -1,5 +1,6 @@
 #include "Input.h"
 #include "../Window.h"
+#include <GLFW/glfw3.h>
 Input::Input(){
 
 }
@@ -17,12 +18,8 @@ void Input::GetMousePos(Window *window,double &xPos, double &yPos){
   tmpYPos = tmpYPos-window->height;
   if (tmpYPos < 0) tmpYPos *= -1;
 
-  float aspectRatio = (float)width/height;
+  float aspectRatio = (float)window->width/window->height;
 
   yPos = (tmpYPos/window->height) * window->baseHeight;
   xPos = (tmpXPos/window->width) * window->baseHeight * aspectRatio;
-
-  std::cout << "\r                              \r" << xPos << ' ' << yPos <<  std::flush;
-
-
 }
