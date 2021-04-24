@@ -74,7 +74,7 @@ void Text::addCharacter(char c){
 
 	//metrics are in 1/64th of a pixel
 
-	int yOffset = (face->glyph->metrics.height - face->glyph->metrics.horiBearingY)/64 + newLines*(face->height/64);
+	int yOffset = (face->glyph->metrics.height - face->glyph->metrics.horiBearingY)/64 + newLines*(face->height/64)*newLineSpacing;
 
 	Panel *p = new Panel(penX,penY-yOffset,face->glyph->metrics.width/64,face->glyph->metrics.height/64,context,vertShader,fragShader);
 	p->setColor(color[0],color[1],color[2],1.0);

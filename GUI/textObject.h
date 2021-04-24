@@ -27,6 +27,9 @@ class Text : public GUIElement{
 		void setFontSize(float);
 		void setTextColor(float,float,float);
 
+		void SetNewLineSpacing(float spacing){newLineSpacing = spacing;setText(text);}
+		float GetNewLineSpacing(){return newLineSpacing;}
+
 		virtual void MouseEventAction(Event &ev){};
 		virtual void KeyEventAction(Event &ev){};
 
@@ -41,7 +44,7 @@ private:
 
 	int penX,penY;
 	int newLines = 0;
-
+	int newLineSpacing = 1;
 	std::vector<Panel*> characters;
 	FT_Library library;
 	FT_Face face;

@@ -3,6 +3,7 @@
 #include "button.h"
 #include "textObject.h"
 #include <vector>
+#include <functional>
 
 class TextInput: public Button{
 	public:
@@ -16,7 +17,7 @@ class TextInput: public Button{
 		double inTimeMax;
 		std::string inputMask;
 
-		TextInput(int,int,int,int,std::string t,void(*)(TextInput*)=nullptr,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		TextInput(int,int,int,int,std::string t,std::function<void(TextInput*)> = nullptr,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
 		void addCharacter(char);
 		void removeCharacter();
@@ -28,5 +29,5 @@ class TextInput: public Button{
 
 		virtual void MouseEventAction(Event &ev);
 		virtual void KeyEventAction(Event &ev);
-		void (*disableAction)(TextInput*) = nullptr;
+		std::function<void(TextInput*)> disableAction = nullptr;
 };

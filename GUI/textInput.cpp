@@ -4,7 +4,7 @@
 using namespace std;
 
 
-TextInput::TextInput(int x,int y,int w,int h,string t,void(*action_func)(TextInput*),Window* window,string vsName,string fsName): Button(x,y,w,h,NULL,window,vsName,fsName){
+TextInput::TextInput(int x,int y,int w,int h,string t,std::function<void(TextInput*)> action_func,Window* window,string vsName,string fsName): Button(x,y,w,h,NULL,window,vsName,fsName){
 	//Init
 	//text = new Text(0,0,15,t,"/usr/share/fonts/TTF/DejaVuSerif.ttf");
 
