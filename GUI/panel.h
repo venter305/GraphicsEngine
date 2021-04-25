@@ -23,6 +23,9 @@ class Panel : public GUIElement{
 		GLuint fbo;
 		GLuint tex = -1;
 
+		bool flippedX = false;
+		bool flippedY = false;
+
 		Panel(GLuint,GLuint,GLuint,GLuint,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 
 		virtual ~Panel();
@@ -37,8 +40,8 @@ class Panel : public GUIElement{
 		virtual void setPos(float,float);
 		virtual void setSize(float,float);
 		void setColor(float,float,float,float);
-		void flipY();
-		void flipX();
+		void flipY(bool state = true);
+		void flipX(bool state = true);
 
 		void changeContext(GLFWwindow*);
 		void setShaders(std::string,std::string);

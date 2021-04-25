@@ -11,7 +11,7 @@ int ListLayout::AddElement(std::shared_ptr<GUIElement> element,int id,int index)
   float baseY = yPos+element->yPos-element->height;
   float x = baseX;
   float y = baseY;
-  
+
   if (index == -1)
     index = elements.size();
 
@@ -19,6 +19,7 @@ int ListLayout::AddElement(std::shared_ptr<GUIElement> element,int id,int index)
       x += elements[i]->width + paddingX;
       y -= elements[i]->height + paddingY;
   }
+
 
   switch (mode){
     case ListMode::Vertical:

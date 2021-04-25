@@ -95,15 +95,6 @@ void Panel::draw(){
 }
 
 void Panel::OnContextResize(int w,int h){
-	// float wNorm = width/context->width;
-	// float hNorm = height/context->height;
-	// float xNorm = xPos/context->width;
-	// float yNorm = yPos/context->height;
-	//
-	// xPos = xNorm * w;
-	// yPos = yNorm * h;
-	// width = wNorm * w;
-  // height = hNorm * h;
 
 	SetMVP(w,h);
 }
@@ -126,10 +117,15 @@ void Panel::setSize(float w, float h){
 void Panel::SetMVP(int contextW, int contextH){
 	float aspectRatio = (float)contextW/(float)contextH;
 
+	float x = xPos+width*flippedX;
+	float y = yPos+height*flippedY;
+	float w = width*(flippedX?-1:1);
+	float h = height*(flippedY?-1:1);
+
 	glm::mat4 proj = glm::ortho(0.0f,aspectRatio,0.0f,1.0f,-1.0f,1.0f);
 	glm::mat4 view = glm::scale(glm::mat4(1.0f),glm::vec3(1/context->baseHeight,1/context->baseHeight,0));
-	glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(xPos,yPos,0.0f));
-	model = glm::scale(model,glm::vec3(width,height,1.0f));
+	glm::mat4 model = glm::translate(glm::mat4(1.0f),glm::vec3(x,y,0.0f));
+	model = glm::scale(model,glm::vec3(w,h,1.0f));
 
 	glm::mat4 mvp = proj*view*model;
 
@@ -180,15 +176,13 @@ void Panel::setColor(float r,float g,float b,float a){
 	glUniform4f(location,color[0],color[1],color[2],color[3]);
 }
 
-void Panel::flipX(){
-	xPos += width;
-	width *= -1;
+void Panel::flipX(bool state){
+	flippedX = state;
 	SetMVP();
 }
 
-void Panel::flipY(){
-	yPos += height;
-	height *= -1;
+void Panel::flipY(bool state){
+	flippedY = state;
 	SetMVP();
 }
 

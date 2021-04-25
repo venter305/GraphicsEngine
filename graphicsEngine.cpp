@@ -36,7 +36,7 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 	});
 
 	glfwSetMouseButtonCallback(window,[](GLFWwindow* win, int button, int action, int mods){
-		glfwMakeContextCurrent(win);
+		glfwMakeContextCurrent(win);	glewInit();
 		double mouseX,mouseY;
 		input.GetMousePos(((Window*)glfwGetWindowUserPointer(win)),mouseX,mouseY);
 		MouseButtonEvent ev((MouseButtonEvent::ButtonType)button,(MouseButtonEvent::ButtonState)action,mouseX,mouseY);
@@ -67,6 +67,8 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 	glewInit();
 
 	windows.push_back(newWindow);
+
+	newWindow->OnStartup();
 }
 
 void GraphicsEngine::Run(){
@@ -74,17 +76,11 @@ void GraphicsEngine::Run(){
 	float dTime = 0;
 	int frames = 0;
 
-	for (auto window : windows){
-		glfwMakeContextCurrent(window->window);
-		window->OnStartup();
-	}
-
 	while(!windows.empty()){
 		frames++;
 		glfwPollEvents();
 		for (auto it = windows.begin(); it != windows.end(); it++){
 			auto window = *it;
-			//mainLoop(window,glfwGetTime());
 			glfwMakeContextCurrent(window->window);
 			window->OnUpdate(glfwGetTime());
 			if (glfwGetTime()-dTime >= 1)
