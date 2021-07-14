@@ -9,7 +9,8 @@ public:
     Character = 1<<1,
     MouseCursor = 1<<2,
     MouseButton = 1<<3,
-    Window = 1<<4
+    Window = 1<<4,
+    JoystickButton = 1<<5
   };
 
   Event();

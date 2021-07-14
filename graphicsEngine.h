@@ -13,8 +13,10 @@
 #include "GUI/button.h"
 #include "GUI/textInput.h"
 #include "GUI/MenuBar.h"
+#include "GUI/Checkbox.h"
 
 #include "GUI/Layout/ListLayout.h"
+#include "GUI/Layout/GridLayout.h"
 
 class GraphicsEngine{
 private:
@@ -25,9 +27,10 @@ private:
 public:
 
 	static Input input;
-	//static GUIManager guiMan;
+	static Window *focusedWindow;
 
 	static void AddWindow(Window* window);
+	static void CloseAllWindows();
 	static void Init();
 	static void Run();
 

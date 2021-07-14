@@ -163,6 +163,11 @@ void Panel::UpdateTexture(int xOffset,int yOffset,int w,int h,GLenum format,GLen
 	glTexSubImage2D(GL_TEXTURE_2D,xOffset,yOffset,0,w,h,format,type,pixels);
 }
 
+void Panel::ChangeTextureParamater(GLenum parameter,GLint value){
+	glBindTexture(GL_TEXTURE_2D,tex);
+	glTexParameteri(GL_TEXTURE_2D, parameter, value);
+}
+
 //Set the Color tint of the texture
 void Panel::setColor(float r,float g,float b,float a){
 	color[0] = r;

@@ -5,17 +5,24 @@
 #include "CharEvent.h"
 #include "MouseButtonEvent.h"
 #include "MouseMoveEvent.h"
+#include "JoystickEvent.h"
 
 class Window;
 class Input{
 
-public:
+  public:
+    struct GamepadState{
+      unsigned char buttons[15];
+      float axis[6];
+    } gamepadState;
 
-  Input();
-  ~Input();
+    Input();
+    ~Input();
 
-  void (*onEvent)(Event&);
-  void GetMousePos(Window* window,double& x,double& y);
+    void OnUpdate();
+
+    void (*onEvent)(Event&);
+    void GetMousePos(Window* window,double& x,double& y);
 
 private:
 };

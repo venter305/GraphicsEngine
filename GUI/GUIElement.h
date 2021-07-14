@@ -12,6 +12,8 @@ public:
   float width = 0;
   float height = 0;
 
+  bool visable = true;
+
   virtual void draw(){};
 
   virtual void setPos(float x,float y){

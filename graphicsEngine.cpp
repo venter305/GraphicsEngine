@@ -2,7 +2,7 @@
 #include <iostream>
 
 Input GraphicsEngine::input;
-//GUIManager GraphicsEngine::guiMan;
+Window *GraphicsEngine::focusedWindow = nullptr;
 
 int GraphicsEngine::width;
 int GraphicsEngine::height;
@@ -14,14 +14,13 @@ void GraphicsEngine::Init(){
 	if (!glfwInit()){
 		return;
 	}
-
 }
 
 void GraphicsEngine::AddWindow(Window* newWindow){
-	GLFWwindow *window = glfwCreateWindow(newWindow->width,newWindow->height,newWindow->title.c_str(),NULL, NULL);
-	newWindow->window = window;
+	GLFWwindow *window = newWindow->window;
 	glfwMakeContextCurrent(window);
 	glfwSetWindowUserPointer(window,newWindow);
+	focusedWindow = newWindow;
 
 	glfwSetKeyCallback(window,[](GLFWwindow* win, int key, int scancode, int action, int mods){
 		glfwMakeContextCurrent(win);
@@ -59,6 +58,11 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 
 	});
 
+	glfwSetWindowFocusCallback(window,[](GLFWwindow *win,int focused){
+		if (focused)
+			GraphicsEngine::focusedWindow = ((Window*)glfwGetWindowUserPointer(win));
+	});
+
 
 	//Enable transparent textures
 	glEnable(GL_TEXTURE_2D);
@@ -71,6 +75,12 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 	newWindow->OnStartup();
 }
 
+void GraphicsEngine::CloseAllWindows(){
+	for(Window* win : windows){
+		glfwSetWindowShouldClose(win->window,true);
+	}
+}
+
 void GraphicsEngine::Run(){
 	//float startTime = glfwGetTime();
 	float dTime = 0;
@@ -79,6 +89,7 @@ void GraphicsEngine::Run(){
 	while(!windows.empty()){
 		frames++;
 		glfwPollEvents();
+		input.OnUpdate();
 		for (auto it = windows.begin(); it != windows.end(); it++){
 			auto window = *it;
 			glfwMakeContextCurrent(window->window);

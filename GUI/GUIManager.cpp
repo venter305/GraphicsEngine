@@ -10,7 +10,7 @@ GUIManager::GUIManager(){
 void GUIManager::drawElements(){
 	std::map<int,std::shared_ptr<GUIElement>>::iterator it;
 	for (it = elements.begin();it != elements.end();it++){
-		it->second->draw();
+		if (it->second->visable)it->second->draw();
 	}
 }
 
@@ -21,6 +21,10 @@ int GUIManager::addElement(std::shared_ptr<GUIElement> element,int id){
 	element->SetId(id);
 	elements.insert({id,element});
 	return id;
+}
+
+void GUIManager::SetElementVisability(int id,bool visability){
+	elements[id]->visable = visability;
 }
 
 void GUIManager::AddLayout(std::shared_ptr<GUILayout> layout){

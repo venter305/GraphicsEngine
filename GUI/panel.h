@@ -36,6 +36,7 @@ class Panel : public GUIElement{
 		void setTexture(GLuint);
 		void CreateTexture(int width,int height,GLenum format,GLenum type, void* pixels);
 		void UpdateTexture(int xOffset,int yOffset,int width,int height,GLenum format,GLenum type,void* pixels);
+		void ChangeTextureParamater(GLenum,GLint);
 
 		virtual void setPos(float,float);
 		virtual void setSize(float,float);

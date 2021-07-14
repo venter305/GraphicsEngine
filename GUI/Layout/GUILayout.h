@@ -17,6 +17,14 @@ class GUILayout : public GUIElement {
 
     virtual ~GUILayout() = default;
 
+    virtual void setPos(float x, float y){
+      for (auto element : elements){
+        element->setPos(element->xPos+(xPos-x),element->yPos+(yPos-y));
+      }
+      xPos = x;
+      yPos = y;
+    }
+
   protected:
     GUILayout(float x,float y){
       xPos = x;
@@ -24,5 +32,6 @@ class GUILayout : public GUIElement {
       enableMouseEvents = true;
       enableKeyEvents = true;
     }
+
 
 };
