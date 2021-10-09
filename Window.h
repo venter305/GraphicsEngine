@@ -17,6 +17,9 @@ class Window {
 
     Window(int w,int h,std::string name):width(w),height(h),title(name),baseHeight(h),baseWidth(w){
       window = glfwCreateWindow(width,height,title.c_str(),NULL, NULL);
+      const char* data;
+      int error = glfwGetError(&data);
+      std::cout << data << std::endl;
     };
 
     void Init(int w,int h,std::string name){
