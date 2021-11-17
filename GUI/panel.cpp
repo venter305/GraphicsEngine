@@ -168,6 +168,10 @@ void Panel::ChangeTextureParamater(GLenum parameter,GLint value){
 	glTexParameteri(GL_TEXTURE_2D, parameter, value);
 }
 
+void Panel::setColor(float _color[4]){
+	setColor(_color[0],_color[1],_color[2],_color[3]);
+}
+
 //Set the Color tint of the texture
 void Panel::setColor(float r,float g,float b,float a){
 	color[0] = r;

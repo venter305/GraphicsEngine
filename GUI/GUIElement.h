@@ -14,6 +14,8 @@ public:
 
   bool visable = true;
 
+  bool hovered = false;
+
   virtual void draw(){};
 
   virtual void setPos(float x,float y){

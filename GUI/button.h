@@ -21,6 +21,9 @@ class Button : public Panel{
 		GLuint textFbo;
 		GLuint textTexture;
 
+		float backgroundColor[4] = {1.0f,1.0f,1.0f,1.0f};
+		float hoverColor[4] = {1.0f,1.0f,1.0f,1.0f};
+
 		Button(int,int,int,int,std::function<void(Button*)>,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
 		virtual ~Button();
 		//void (*action)(Button*);
@@ -41,6 +44,9 @@ class Button : public Panel{
 		void setTextPos(int = 0,int = 0);
 		void draw();
 		void setBackgroundColor(float,float,float);
+		void setBackgroundColor(float _color[4]);
+		void setHoveredColor(float,float,float);
+		void setHoveredColor(float _color[4]);
 		void SetTextMargins(int x, int y);
 
 	private:

@@ -35,7 +35,7 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 	});
 
 	glfwSetMouseButtonCallback(window,[](GLFWwindow* win, int button, int action, int mods){
-		glfwMakeContextCurrent(win);	glewInit();
+		glfwMakeContextCurrent(win);
 		double mouseX,mouseY;
 		input.GetMousePos(((Window*)glfwGetWindowUserPointer(win)),mouseX,mouseY);
 		MouseButtonEvent ev((MouseButtonEvent::ButtonType)button,(MouseButtonEvent::ButtonState)action,mouseX,mouseY);
@@ -44,7 +44,9 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 
 	glfwSetCursorPosCallback(window, [](GLFWwindow* win, double xPos,double yPos){
 		glfwMakeContextCurrent(win);
-		MouseMoveEvent ev(xPos,yPos);
+		double mouseX,mouseY;
+		input.GetMousePos(((Window*)glfwGetWindowUserPointer(win)),mouseX,mouseY);
+		MouseMoveEvent ev(mouseX,mouseY);
 		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
 	});
 

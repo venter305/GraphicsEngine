@@ -41,6 +41,7 @@ class Panel : public GUIElement{
 		virtual void setPos(float,float);
 		virtual void setSize(float,float);
 		void setColor(float,float,float,float);
+		void setColor(float _color[4]);
 		void flipY(bool state = true);
 		void flipX(bool state = true);
 
