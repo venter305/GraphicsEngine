@@ -23,20 +23,20 @@ int ListLayout::AddElement(std::shared_ptr<GUIElement> element,int id,int index)
 
   switch (mode){
     case ListMode::Vertical:
-      element->setPos(baseX,y);
+      element->SetPos(baseX,y);
       height += element->height;
       if (element->width < width)
         width = element->width;
       break;
     case ListMode::Horizontal:
-      element->setPos(x,baseY);
+      element->SetPos(x,baseY);
       width += element->width;
       if (element->height < height)
         height = element->height;
       break;
     case ListMode::None:
     default:
-      element->setPos(baseX,baseY);
+      element->SetPos(baseX,baseY);
       break;
   };
   element->SetId(id);

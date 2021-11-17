@@ -26,28 +26,28 @@ class Panel : public GUIElement{
 		bool flippedX = false;
 		bool flippedY = false;
 
-		Panel(GLuint,GLuint,GLuint,GLuint,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		Panel(GLuint,GLuint,GLuint,GLuint,Window* = nullptr,std::string="./GraphicsEngine/GUI/Shaders/panelVertShader",std::string="./GraphicsEngine/GUI/Shaders/panelFragShader");
 
 		virtual ~Panel();
 
-		virtual void draw();
+		virtual void Draw();
 		virtual void OnContextResize(int w,int h);
 
-		void setTexture(GLuint);
+		void SetTexture(GLuint);
 		void CreateTexture(int width,int height,GLenum format,GLenum type, void* pixels);
 		void UpdateTexture(int xOffset,int yOffset,int width,int height,GLenum format,GLenum type,void* pixels);
 		void ChangeTextureParamater(GLenum,GLint);
 
-		virtual void setPos(float,float);
-		virtual void setSize(float,float);
-		void setColor(float,float,float,float);
-		void setColor(float _color[4]);
-		void flipY(bool state = true);
-		void flipX(bool state = true);
+		virtual void SetPos(float,float);
+		virtual void SetSize(float,float);
+		void SetColor(float,float,float,float);
+		void SetColor(float _color[4]);
+		void FlipY(bool state = true);
+		void FlipX(bool state = true);
 
-		void changeContext(GLFWwindow*);
-		void setShaders(std::string,std::string);
-		bool checkBoundingBox(int,int);
+		void ChangeContext(GLFWwindow*);
+		void SetShaders(std::string,std::string);
+		bool CheckBoundingBox(int,int);
 		virtual void MouseEventAction(Event& ev){};
 		virtual void KeyEventAction(Event& ev){};
 

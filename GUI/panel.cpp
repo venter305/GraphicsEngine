@@ -44,7 +44,7 @@ Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string 
 	CreateTexture(1,1,GL_RGB,GL_FLOAT,pixels);
 	//Setup Context specific values
 	//Shaders
-	setShaders(vShader,fShader);
+	SetShaders(vShader,fShader);
 
 	//Set the Model,view,projection matrices
 	SetMVP();
@@ -60,7 +60,7 @@ Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, indices, GL_STATIC_DRAW);
 
-	setColor(1.0f,1.0f,1.0f,1.0f);
+	SetColor(1.0f,1.0f,1.0f,1.0f);
 }
 
 Panel::~Panel(){
@@ -71,7 +71,7 @@ Panel::~Panel(){
 }
 
 //Draw the Panel
-void Panel::draw(){
+void Panel::Draw(){
 	//GLFWwindow *currWindow = glfwGetCurrentContext();
 	//glfwMakeContextCurrent(context);
 	glUseProgram(shaderId);
@@ -101,14 +101,14 @@ void Panel::OnContextResize(int w,int h){
 
 
 //Set the position
-void Panel::setPos(float x,float y){
+void Panel::SetPos(float x,float y){
 	xPos = x;
 	yPos = y;
 	SetMVP();
 }
 
 //Set the size
-void Panel::setSize(float w, float h){
+void Panel::SetSize(float w, float h){
 	width = w;
 	height = h;
 	SetMVP();
@@ -139,7 +139,7 @@ void Panel::SetMVP(){
 }
 
 //Set the texture
-void Panel::setTexture(GLuint texture){
+void Panel::SetTexture(GLuint texture){
 	glDeleteTextures(1,&tex);
 	tex = texture;
 }
@@ -168,12 +168,12 @@ void Panel::ChangeTextureParamater(GLenum parameter,GLint value){
 	glTexParameteri(GL_TEXTURE_2D, parameter, value);
 }
 
-void Panel::setColor(float _color[4]){
-	setColor(_color[0],_color[1],_color[2],_color[3]);
+void Panel::SetColor(float _color[4]){
+	SetColor(_color[0],_color[1],_color[2],_color[3]);
 }
 
 //Set the Color tint of the texture
-void Panel::setColor(float r,float g,float b,float a){
+void Panel::SetColor(float r,float g,float b,float a){
 	color[0] = r;
 	color[1] = g;
 	color[2] = b;
@@ -185,24 +185,24 @@ void Panel::setColor(float r,float g,float b,float a){
 	glUniform4f(location,color[0],color[1],color[2],color[3]);
 }
 
-void Panel::flipX(bool state){
+void Panel::FlipX(bool state){
 	flippedX = state;
 	SetMVP();
 }
 
-void Panel::flipY(bool state){
+void Panel::FlipY(bool state){
 	flippedY = state;
 	SetMVP();
 }
 
 
-void Panel::changeContext(GLFWwindow *window){
+void Panel::ChangeContext(GLFWwindow *window){
 	//context = window;
 	//GLFWwindow *currWindow = glfwGetCurrentContext();
 	//glfwMakeContextCurrent(window);
 
 	//Shaders
-	setShaders(vShader,fShader);
+	SetShaders(vShader,fShader);
 
 	//Set the Model,view,projection matrices
 	SetMVP();
@@ -221,7 +221,7 @@ void Panel::changeContext(GLFWwindow *window){
 	//glfwMakeContextCurrent(currWindow);
 }
 
-void Panel::setShaders(std::string vsName, std::string fsName){
+void Panel::SetShaders(std::string vsName, std::string fsName){
 	//Shaders
 	std::ifstream vsFile;
 	std::ifstream fsFile;
@@ -286,6 +286,6 @@ if(!success)
 	glDeleteShader(fragment);
 }
 
-bool Panel::checkBoundingBox(int x, int y){
+bool Panel::CheckBoundingBox(int x, int y){
 	return (x >= xPos && x <= (xPos+width) && y >= yPos && y <= (yPos+height));
 }

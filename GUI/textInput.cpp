@@ -11,11 +11,11 @@ TextInput::TextInput(int x,int y,int w,int h,string t,std::function<void(TextInp
 	enableMouseEvents = true;
 	enableKeyEvents = true;
 
-	disableAction = action_func;
-	setEnabled(false);
+	DisableAction = action_func;
+	SetEnabled(false);
 	//drawText();
 
-	setText(t);
+	SetText(t);
 
 
 	prevInTime = 0;
@@ -24,46 +24,46 @@ TextInput::TextInput(int x,int y,int w,int h,string t,std::function<void(TextInp
 	inputMask = "abcdefghijklmnopqrstuvwxyz.0123456789/";
 }
 
-void TextInput::addCharacter(char newChar){
-	setText(text->text+newChar);
+void TextInput::AddCharacter(char newChar){
+	SetText(text->text+newChar);
 }
 
-void TextInput::removeCharacter(){
+void TextInput::RemoveCharacter(){
 	if (text->text.empty())
 		return;
 	text->text.pop_back();
-	setText(text->text);
+	SetText(text->text);
 }
 
-void TextInput::setEnabled(bool state){
+void TextInput::SetEnabled(bool state){
 	if (state){
-		setBackgroundColor(enabledColor[0],enabledColor[1],enabledColor[2]);
+		SetBackgroundColor(enabledColor[0],enabledColor[1],enabledColor[2]);
 	}
 	else{
-		setBackgroundColor(disabledColor[0],disabledColor[1],disabledColor[2]);
-		if (enabled && disableAction != nullptr) disableAction(this);
+		SetBackgroundColor(disabledColor[0],disabledColor[1],disabledColor[2]);
+		if (enabled && DisableAction != nullptr) DisableAction(this);
 	}
 
 	enabled = state;
 }
 
-void TextInput::setEnabledColor(float color[3]){
+void TextInput::SetEnabledColor(float color[3]){
 	enabledColor[0] = color[0];
 	enabledColor[1] = color[1];
 	enabledColor[2] = color[2];
-	setEnabled(enabled);
+	SetEnabled(enabled);
 }
 
-void TextInput::setDisabledColor(float color[3]){
+void TextInput::SetDisabledColor(float color[3]){
 	disabledColor[0] = color[0];
 	disabledColor[1] = color[1];
 	disabledColor[2] = color[2];
-	setEnabled(enabled);
+	SetEnabled(enabled);
 }
 
-void TextInput::setStateColors(float eColor[3], float dColor[3]){
-	setEnabledColor(eColor);
-	setDisabledColor(dColor);
+void TextInput::SetStateColors(float eColor[3], float dColor[3]){
+	SetEnabledColor(eColor);
+	SetDisabledColor(dColor);
 }
 
 void TextInput::MouseEventAction(Event &ev){
@@ -73,10 +73,25 @@ void TextInput::MouseEventAction(Event &ev){
 				MouseButtonEvent *mEv = (MouseButtonEvent*)&ev;
 				if (mEv->GetButtonType() != MouseButtonEvent::ButtonType::Left || mEv->GetButtonState() != MouseButtonEvent::ButtonState::Pressed)
 					break;
-				setEnabled(checkBoundingBox(mEv->GetMouseX(),mEv->GetMouseY()));
+				SetEnabled(CheckBoundingBox(mEv->GetMouseX(),mEv->GetMouseY()));
 			}
 			break;
-
+		case Event::MouseCursor:
+			{
+				MouseMoveEvent *mEv = (MouseMoveEvent*)&ev;
+				int xPos = mEv->GetMouseX();
+				int yPos = mEv->GetMouseY();
+				if (CheckBoundingBox(xPos,yPos)){
+					if (hovered)
+						SetColor(hoverColor);
+					hovered = true;
+				}
+				else if(hovered){
+					SetColor(backgroundColor);
+					hovered = false;
+				}
+			}
+			break;
 	}
 }
 
@@ -92,16 +107,16 @@ void TextInput::KeyEventAction(Event &ev){
 				if(!enabled)
 					break;
 				if (keyCode == GLFW_KEY_BACKSPACE)
-					removeCharacter();
+					RemoveCharacter();
 				else if (keyCode == GLFW_KEY_ENTER)
-					setEnabled(false);
+					SetEnabled(false);
 			}
 			break;
 		case Event::Character:
 			{
 				unsigned int charCode = static_cast<CharEvent*>(&ev)->GetCharCode();
 				if (enabled)
-					addCharacter(charCode);
+					AddCharacter(charCode);
 			}
 			break;
 	}

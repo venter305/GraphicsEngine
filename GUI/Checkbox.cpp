@@ -13,15 +13,31 @@ void Checkbox::MouseEventAction(Event& ev){
 					break;
 				int xPos = mEv->GetMouseX();
 				int yPos = mEv->GetMouseY();
-				if (checkBoundingBox(xPos,yPos)){
+				if (CheckBoundingBox(xPos,yPos)){
           if (*val){
             *val = false;
-            setText("");
+            SetText("");
           }
           else{
             *val = true;
-            setText("X");
+            SetText("X");
           }
+				}
+			}
+			break;
+		case Event::MouseCursor:
+			{
+				MouseMoveEvent *mEv = (MouseMoveEvent*)&ev;
+				int xPos = mEv->GetMouseX();
+				int yPos = mEv->GetMouseY();
+				if (CheckBoundingBox(xPos,yPos)){
+					if (hovered)
+						SetColor(hoverColor);
+					hovered = true;
+				}
+				else if(hovered){
+					SetColor(backgroundColor);
+					hovered = false;
 				}
 			}
 			break;
@@ -31,10 +47,10 @@ void Checkbox::MouseEventAction(Event& ev){
 void Checkbox::SetChecked(bool value){
   if (!value){
     *val = false;
-    setText("");
+    SetText("");
   }
   else{
     *val = true;
-    setText("X");
+    SetText("X");
   }
 }

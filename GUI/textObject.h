@@ -21,13 +21,13 @@ class Text : public GUIElement{
 		Text(int,int,float,std::string,Window* window=nullptr,std::string="./GraphicsEngine/freefont/FreeSerif.otf");
 		virtual ~Text();
 
-		void draw();
-		void setText(std::string);
-		void setPos(float,float);
-		void setFontSize(float);
-		void setTextColor(float,float,float);
+		void Draw();
+		void SetText(std::string);
+		void SetPos(float,float);
+		void SetFontSize(float);
+		void SetTextColor(float,float,float);
 
-		void SetNewLineSpacing(float spacing){newLineSpacing = spacing;setText(text);}
+		void SetNewLineSpacing(float spacing){newLineSpacing = spacing;SetText(text);}
 		float GetNewLineSpacing(){return newLineSpacing;}
 
 		virtual void MouseEventAction(Event &ev){};
@@ -39,8 +39,8 @@ class Text : public GUIElement{
 
 
 private:
-	std::string vertShader = "./GraphicsEngine/GUI/panelVertShader";
-	std::string fragShader = "./GraphicsEngine/GUI/textFragShader";
+	std::string vertShader = "./GraphicsEngine/GUI/Shaders/panelVertShader";
+	std::string fragShader = "./GraphicsEngine/GUI/Shaders/textFragShader";
 
 	int penX,penY;
 	int newLines = 0;
@@ -49,5 +49,5 @@ private:
 	FT_Library library;
 	FT_Face face;
 
-	void addCharacter(char);
+	void AddCharacter(char);
 };

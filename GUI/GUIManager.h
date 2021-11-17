@@ -13,8 +13,8 @@ class GUIManager{
 	public:
 
 		GUIManager();
-		void drawElements();
-		int addElement(std::shared_ptr<GUIElement>,int=-1);
+		void DrawElements();
+		int AddElement(std::shared_ptr<GUIElement>,int=-1);
 		void SetElementVisability(int id,bool visability);
 		void AddLayout(std::shared_ptr<GUILayout>);
 

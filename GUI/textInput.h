@@ -17,17 +17,17 @@ class TextInput: public Button{
 		double inTimeMax;
 		std::string inputMask;
 
-		TextInput(int,int,int,int,std::string t,std::function<void(TextInput*)> = nullptr,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		TextInput(int,int,int,int,std::string t,std::function<void(TextInput*)> = nullptr,Window* = nullptr,std::string="./GraphicsEngine/GUI/Shaders/panelVertShader",std::string="./GraphicsEngine/GUI/Shaders/panelFragShader");
 
-		void addCharacter(char);
-		void removeCharacter();
-		void setEnabled(bool);
-		void setEnabledColor(float[3]);
-		void setDisabledColor(float[3]);
-		void setStateColors(float[3],float[3]);
-		void keyInput(std::vector<int>);
+		void AddCharacter(char);
+		void RemoveCharacter();
+		void SetEnabled(bool);
+		void SetEnabledColor(float[3]);
+		void SetDisabledColor(float[3]);
+		void SetStateColors(float[3],float[3]);
+		void KeyInput(std::vector<int>);
 
 		virtual void MouseEventAction(Event &ev);
 		virtual void KeyEventAction(Event &ev);
-		std::function<void(TextInput*)> disableAction = nullptr;
+		std::function<void(TextInput*)> DisableAction = nullptr;
 };

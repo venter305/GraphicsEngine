@@ -8,7 +8,7 @@ GridLayout::GridLayout(int x,int y,int _rows,int size,int padding) : numRows(_ro
 void GridLayout::SetPadding(int xPad,int yPad){
   rowPadding = yPad;
   for (int i=0;i<numRows;i++){
-    rows[i].setPos(xPos,yPos-i*(cellSize+rowPadding));
+    rows[i].SetPos(xPos,yPos-i*(cellSize+rowPadding));
     rows[i].SetPadding(xPad,yPad);
   }
 }

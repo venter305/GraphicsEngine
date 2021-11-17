@@ -17,9 +17,9 @@ class GUILayout : public GUIElement {
 
     virtual ~GUILayout() = default;
 
-    virtual void setPos(float x, float y){
+    virtual void SetPos(float x, float y){
       for (auto element : elements){
-        element->setPos(element->xPos+(xPos-x),element->yPos+(yPos-y));
+        element->SetPos(element->xPos+(xPos-x),element->yPos+(yPos-y));
       }
       xPos = x;
       yPos = y;

@@ -21,10 +21,10 @@ class MenuBar : public GUIElement{
 
     void SetMenuButtonPadding(int xPadding,int yPadding);
 
-    void setPos(float x,float y);
-    void setSize(float w,float h);
+    void SetPos(float x,float y);
+    void SetSize(float w,float h);
 
-    virtual void draw();
+    virtual void Draw();
 
     virtual void MouseEventAction(Event& ev);
 

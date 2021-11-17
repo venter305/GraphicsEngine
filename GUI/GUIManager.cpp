@@ -7,15 +7,15 @@ GUIManager::GUIManager(){
 
 }
 
-void GUIManager::drawElements(){
+void GUIManager::DrawElements(){
 	std::map<int,std::shared_ptr<GUIElement>>::iterator it;
 	for (it = elements.begin();it != elements.end();it++){
-		if (it->second->visable)it->second->draw();
+		if (it->second->visable)it->second->Draw();
 	}
 }
 
 
-int GUIManager::addElement(std::shared_ptr<GUIElement> element,int id){
+int GUIManager::AddElement(std::shared_ptr<GUIElement> element,int id){
 	if (id == -1)
 		id = elements.size();
 	element->SetId(id);
@@ -30,7 +30,7 @@ void GUIManager::SetElementVisability(int id,bool visability){
 void GUIManager::AddLayout(std::shared_ptr<GUILayout> layout){
 	auto* layoutElements = layout->GetElementList();
 	for (int i=0;i<layout->NumberOfElements();i++){
-		addElement((*layoutElements)[i],(*layoutElements)[i]->GetId());
+		AddElement((*layoutElements)[i],(*layoutElements)[i]->GetId());
 	}
 }
 

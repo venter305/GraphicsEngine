@@ -13,7 +13,7 @@ Text::Text(int x, int y, float scale, std::string t, Window* window,std::string 
 	else
 		context = window;
 
-	setText(t);
+	SetText(t);
 }
 
 Text::~Text(){
@@ -27,7 +27,7 @@ void Text::OnContextResize(int contextW,int contextH){
 }
 
 //Set the text
-void Text::setText(std::string t){
+void Text::SetText(std::string t){
 	text = t;
 
 	for (Panel *p : characters)
@@ -44,7 +44,7 @@ void Text::setText(std::string t){
 	newLines = 0;
 
 	for (char c : text)
-		addCharacter(c);
+		AddCharacter(c);
 
 	width = penX-xPos;
 	height = (face->size->metrics.height/2)/64;
@@ -52,12 +52,12 @@ void Text::setText(std::string t){
 	FT_Done_Face(face);
 }
 
-void Text::draw(){
+void Text::Draw(){
 	for (auto character : characters)
-		character->draw();
+		character->Draw();
 }
 
-void Text::addCharacter(char c){
+void Text::AddCharacter(char c){
 	FT_Load_Char(face,c,FT_LOAD_RENDER);
 
 	if (c == '\n'){
@@ -77,7 +77,7 @@ void Text::addCharacter(char c){
 	int yOffset = (face->glyph->metrics.height - face->glyph->metrics.horiBearingY)/64 + newLines*(face->height/64)*newLineSpacing;
 
 	Panel *p = new Panel(penX,penY-yOffset,face->glyph->metrics.width/64,face->glyph->metrics.height/64,context,vertShader,fragShader);
-	p->setColor(color[0],color[1],color[2],1.0);
+	p->SetColor(color[0],color[1],color[2],1.0);
 
 	penX += (face->glyph->metrics.horiAdvance - face->glyph->metrics.horiBearingX)/64;
 
@@ -93,31 +93,31 @@ void Text::addCharacter(char c){
 
 
 
-	p->setTexture(tex);
+	p->SetTexture(tex);
 
-	p->flipY();
+	p->FlipY();
 
 	characters.push_back(p);
 }
 
-void Text::setPos(float x, float y){
+void Text::SetPos(float x, float y){
 	xPos = x;
 	yPos = y;
 
-	setText(text);
+	SetText(text);
 }
 
-void Text::setFontSize(float size){
+void Text::SetFontSize(float size){
 	fontSize = size;
-	setText(text);
+	SetText(text);
 }
 
-void Text::setTextColor(float r,float g, float b){
+void Text::SetTextColor(float r,float g, float b){
 	color[0] = r;
 	color[1] = g;
 	color[2] = b;
 	for (Panel* p : characters){
-		p->setColor(r,g,b,1.0);
+		p->SetColor(r,g,b,1.0);
 	}
 
 }

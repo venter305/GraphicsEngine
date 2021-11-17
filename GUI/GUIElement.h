@@ -16,14 +16,14 @@ public:
 
   bool hovered = false;
 
-  virtual void draw(){};
+  virtual void Draw(){};
 
-  virtual void setPos(float x,float y){
+  virtual void SetPos(float x,float y){
     xPos = x;
     yPos = y;
   }
 
-  virtual void setSize(float w,float h){
+  virtual void SetSize(float w,float h){
     width = w;
     height = h;
   }

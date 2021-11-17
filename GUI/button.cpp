@@ -17,19 +17,19 @@ Button::~Button(){
 	delete text;
 }
 
-void Button::draw(){
-	Panel::draw();
-	text->draw();
+void Button::Draw(){
+	Panel::Draw();
+	text->Draw();
 }
 
-void Button::setPos(float x,float y){
-	Panel::setPos(x,y);
-	setTextPos();
+void Button::SetPos(float x,float y){
+	Panel::SetPos(x,y);
+	SetTextPos();
 }
 
-void Button::setSize(float w,float h){
-	Panel::setSize(w,h);
-	setTextPos();
+void Button::SetSize(float w,float h){
+	Panel::SetSize(w,h);
+	SetTextPos();
 }
 
 void Button::OnContextResize(int contextW,int contextH){
@@ -37,32 +37,32 @@ void Button::OnContextResize(int contextW,int contextH){
 	Panel::OnContextResize(contextW,contextH);
 }
 
-void Button::setText(std::string txt){
-	text->setText(txt);
-	setTextPos();
+void Button::SetText(std::string txt){
+	text->SetText(txt);
+	SetTextPos();
 }
 
-void Button::setTextSize(int size){
-	text->setFontSize(size);
-	setTextPos();
+void Button::SetTextSize(int size){
+	text->SetFontSize(size);
+	SetTextPos();
 }
 
-void Button::setTextColor(float r,float g, float b){
-	text->setTextColor(r,g,b);
+void Button::SetTextColor(float r,float g, float b){
+	text->SetTextColor(r,g,b);
 }
 
-void Button::setTextAlignment(TextAlignment tAlign){
+void Button::SetTextAlignment(TextAlignment tAlign){
 	textAlignment = tAlign;
-	setTextPos();
+	SetTextPos();
 }
 
 void Button::SetTextMargins(int x,int y){
 	textMarginX = x;
 	textMarginY = y;
-	setTextPos();
+	SetTextPos();
 }
 
-void Button::setTextPos(int xOffset,int yOffset){
+void Button::SetTextPos(int xOffset,int yOffset){
 	int textPosX = textMarginX + xOffset;
 	int textPosY = yPos+(height/2)-(text->height/2)+textMarginY + yOffset;
 	switch(textAlignment){
@@ -75,40 +75,40 @@ void Button::setTextPos(int xOffset,int yOffset){
 		case TextAlignment::Right:
 			break;
 	}
-	text->setPos(textPosX,textPosY);
+	text->SetPos(textPosX,textPosY);
 }
 
 //Change Background color
-void Button::setBackgroundColor(float c1,float c2,float c3){
+void Button::SetBackgroundColor(float c1,float c2,float c3){
 	backgroundColor[0] = c1;
 	backgroundColor[1] = c2;
 	backgroundColor[2] = c3;
 	backgroundColor[3] = 1.0f;
-	setColor(c1,c2,c3,1.0f);
+	SetColor(c1,c2,c3,1.0f);
 }
 
-void Button::setBackgroundColor(float _color[4]){
+void Button::SetBackgroundColor(float _color[4]){
 	backgroundColor[0] = _color[0];
 	backgroundColor[1] = _color[1];
 	backgroundColor[2] = _color[2];
 	backgroundColor[3] = _color[3];
-	setColor(_color[0],_color[1],_color[2],_color[3]);
+	SetColor(_color[0],_color[1],_color[2],_color[3]);
 }
 
-void Button::setHoveredColor(float c1,float c2,float c3){
+void Button::SetHoveredColor(float c1,float c2,float c3){
 	hoverColor[0] = c1;
 	hoverColor[1] = c2;
 	hoverColor[2] = c3;
 	hoverColor[3] = 1.0f;
-	setColor(c1,c2,c3,1.0f);
+	SetColor(c1,c2,c3,1.0f);
 }
 
-void Button::setHoveredColor(float _color[4]){
+void Button::SetHoveredColor(float _color[4]){
 	hoverColor[0] = _color[0];
 	hoverColor[1] = _color[1];
 	hoverColor[2] = _color[2];
 	hoverColor[3] = _color[3];
-	setColor(_color[0],_color[1],_color[2],_color[3]);
+	SetColor(_color[0],_color[1],_color[2],_color[3]);
 }
 
 void Button::MouseEventAction(Event& ev){
@@ -120,7 +120,7 @@ void Button::MouseEventAction(Event& ev){
 					break;
 				int xPos = mEv->GetMouseX();
 				int yPos = mEv->GetMouseY();
-				if (checkBoundingBox(xPos,yPos)){
+				if (CheckBoundingBox(xPos,yPos)){
 					action(this);
 				}
 			}
@@ -130,13 +130,13 @@ void Button::MouseEventAction(Event& ev){
 				MouseMoveEvent *mEv = (MouseMoveEvent*)&ev;
 				int xPos = mEv->GetMouseX();
 				int yPos = mEv->GetMouseY();
-				if (checkBoundingBox(xPos,yPos)){
+				if (CheckBoundingBox(xPos,yPos)){
 					if (hovered)
-						setColor(hoverColor);
+						SetColor(hoverColor);
 					hovered = true;
 				}
 				else if(hovered){
-					setColor(backgroundColor);
+					SetColor(backgroundColor);
 					hovered = false;
 				}
 			}

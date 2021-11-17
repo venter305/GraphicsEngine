@@ -24,7 +24,7 @@ class Button : public Panel{
 		float backgroundColor[4] = {1.0f,1.0f,1.0f,1.0f};
 		float hoverColor[4] = {1.0f,1.0f,1.0f,1.0f};
 
-		Button(int,int,int,int,std::function<void(Button*)>,Window* = nullptr,std::string="./GraphicsEngine/GUI/panelVertShader",std::string="./GraphicsEngine/GUI/panelFragShader");
+		Button(int,int,int,int,std::function<void(Button*)>,Window* = nullptr,std::string="./GraphicsEngine/GUI/Shaders/panelVertShader",std::string="./GraphicsEngine/GUI/Shaders/panelFragShader");
 		virtual ~Button();
 		//void (*action)(Button*);
 		std::function<void(Button*)> action;
@@ -34,19 +34,19 @@ class Button : public Panel{
 
 		std::string GetText(){return text->GetText();}
 
-		virtual void setSize(float w,float h);
-		virtual void setPos(float x,float y);
+		virtual void SetSize(float w,float h);
+		virtual void SetPos(float x,float y);
 
-		void setText(std::string);
-		void setTextSize(int);
-		void setTextColor(float,float,float);
-		void setTextAlignment(TextAlignment);
-		void setTextPos(int = 0,int = 0);
-		void draw();
-		void setBackgroundColor(float,float,float);
-		void setBackgroundColor(float _color[4]);
-		void setHoveredColor(float,float,float);
-		void setHoveredColor(float _color[4]);
+		void SetText(std::string);
+		void SetTextSize(int);
+		void SetTextColor(float,float,float);
+		void SetTextAlignment(TextAlignment);
+		void SetTextPos(int = 0,int = 0);
+		void Draw();
+		void SetBackgroundColor(float,float,float);
+		void SetBackgroundColor(float _color[4]);
+		void SetHoveredColor(float,float,float);
+		void SetHoveredColor(float _color[4]);
 		void SetTextMargins(int x, int y);
 
 	private:

@@ -14,7 +14,7 @@ class ElementTestWindow : public Window{
 
 		void OnUpdate(double dTime){
 			glClear(GL_COLOR_BUFFER_BIT);
-			guiMan.drawElements();
+			guiMan.DrawElements();
 
 		}
 
