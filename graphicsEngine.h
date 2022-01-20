@@ -14,6 +14,7 @@
 #include "GUI/textInput.h"
 #include "GUI/MenuBar.h"
 #include "GUI/Checkbox.h"
+#include "GUI/Canvas.h"
 
 #include "GUI/Layout/ListLayout.h"
 #include "GUI/Layout/GridLayout.h"

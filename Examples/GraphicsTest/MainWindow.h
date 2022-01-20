@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GraphicsEngine/graphicsEngine.h"
-#include "ElementTestWindow.h"
+#include "CanvasTest.h"
 
 class MainWindow : public Window{
 	private:
@@ -28,8 +28,8 @@ class MainWindow : public Window{
 			menuBar->SetBackgroundColor(0.9f,0.9f,0.9f,1.0f);
 			menuBar->SetMenuButtonColor(0.9f,0.9f,0.9f,1.0f);
 			menuBar->SetMenuButtonPadding(10,2);
-			menuBar->AddMenuButton("New Window",[](Button *btn){
-				GraphicsEngine::AddWindow(new ElementTestWindow(640,480,"Element Options"));
+			menuBar->AddMenuButton("Canvas Test",[](Button *btn){
+				GraphicsEngine::AddWindow(new CanvasTest(640,480,"Canvas Test"));
 			});
 			guiMan.AddElement(menuBar,500);
 
@@ -173,5 +173,4 @@ class MainWindow : public Window{
 		void OnEvent(Event &ev){
 			guiMan.HandleEvent(ev);
 		}
-
 };

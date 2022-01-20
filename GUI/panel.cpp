@@ -1,5 +1,3 @@
-#include <GL/glew.h>
-
 #include "panel.h"
 
 #include "../glm/glm/glm.hpp"
@@ -10,6 +8,7 @@
 #include <sstream>
 #include <array>
 
+#define RENDERER context->renderer
 
 GLfloat Panel::vertices[] = {
 		 0.0f, 0.0f,0.0f,0.0f,
@@ -24,10 +23,6 @@ GLuint Panel::indices[] = {
 		};
 
 Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string vsName,std::string fsName) : vShader(vsName),fShader(fsName){
-	GLint windowData[4];
-	glGetIntegerv(GL_VIEWPORT,windowData);
-
-
 	//Init
 	xPos = x;
 	yPos = y;
@@ -50,52 +45,28 @@ Panel::Panel(GLuint x, GLuint y, GLuint w, GLuint h, Window* window,std::string 
 	SetMVP();
 
 	//Generate Buffers
-	glGenBuffers(1,&vboId);
-	glGenBuffers(1,&iboId);
+	vboId = RENDERER.CreateBuffer();
+	iboId = RENDERER.CreateBuffer();
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, (sizeof(GLfloat)*16), vertices, GL_STATIC_DRAW);
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, indices, GL_STATIC_DRAW);
+	RENDERER.SetBufferData(vboId,GL_ARRAY_BUFFER,(sizeof(GLfloat)*16), vertices, GL_STATIC_DRAW);
+	RENDERER.SetBufferData(iboId,GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, indices, GL_STATIC_DRAW);
 
 	SetColor(1.0f,1.0f,1.0f,1.0f);
 }
 
 Panel::~Panel(){
-	glDeleteTextures(1,&tex);
-	glDeleteBuffers(1,&vboId);
-	glDeleteBuffers(1,&iboId);
-  glDeleteProgram(shaderId);
+	RENDERER.DeleteTexture(tex);
+	RENDERER.DeleteBuffer(vboId);
+	RENDERER.DeleteBuffer(iboId);
+	RENDERER.DeleteShader(shaderId);
 }
 
 //Draw the Panel
 void Panel::Draw(){
-	//GLFWwindow *currWindow = glfwGetCurrentContext();
-	//glfwMakeContextCurrent(context);
-	glUseProgram(shaderId);
-
-	glBindBuffer(GL_ARRAY_BUFFER,vboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,iboId);
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glBindTexture(GL_TEXTURE_2D,tex);
-
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(0,2,GL_FLOAT,false,4*sizeof(GLfloat),(void*)0);
-	glVertexAttribPointer(1,2,GL_FLOAT,false,4*sizeof(GLfloat),(void*)(2*sizeof(GLfloat)));
-
-	glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,(void*)0);
-
-
-	//glfwMakeContextCurrent(currWindow);
+	RENDERER.DrawPolygon(6,vboId,iboId,shaderId,tex);
 }
 
 void Panel::OnContextResize(int w,int h){
-
 	SetMVP(w,h);
 }
 
@@ -129,9 +100,7 @@ void Panel::SetMVP(int contextW, int contextH){
 
 	glm::mat4 mvp = proj*view*model;
 
-	glUseProgram(shaderId);
-	int location = glGetUniformLocation(shaderId,"mvp");
-	glUniformMatrix4fv(location,1,GL_FALSE,&mvp[0][0]);
+	RENDERER.SetUniformMatrix4fv(shaderId,"mvp",&mvp[0][0]);
 }
 
 void Panel::SetMVP(){
@@ -140,32 +109,21 @@ void Panel::SetMVP(){
 
 //Set the texture
 void Panel::SetTexture(GLuint texture){
-	glDeleteTextures(1,&tex);
+	RENDERER.DeleteTexture(tex);
 	tex = texture;
 }
 
 void Panel::CreateTexture(int w, int h,GLenum format,GLenum type,void* pixels){
-
-	glDeleteTextures(1,&tex);
-
-	glGenTextures(1,&tex);
-	glBindTexture(GL_TEXTURE_2D,tex);
-	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,w,h,0,format,type,pixels);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	RENDERER.DeleteTexture(tex);
+	tex = RENDERER.CreateTexture(w,h,format,type,pixels);
 }
 
 void Panel::UpdateTexture(int xOffset,int yOffset,int w,int h,GLenum format,GLenum type,void* pixels){
-	glBindTexture(GL_TEXTURE_2D,tex);
-	glTexSubImage2D(GL_TEXTURE_2D,xOffset,yOffset,0,w,h,format,type,pixels);
+	RENDERER.UpdateTexture(tex,xOffset,yOffset,w,h,format,type,pixels);
 }
 
 void Panel::ChangeTextureParamater(GLenum parameter,GLint value){
-	glBindTexture(GL_TEXTURE_2D,tex);
-	glTexParameteri(GL_TEXTURE_2D, parameter, value);
+	RENDERER.ChangeTextureParamater(tex,parameter,value);
 }
 
 void Panel::SetColor(float _color[4]){
@@ -179,10 +137,7 @@ void Panel::SetColor(float r,float g,float b,float a){
 	color[2] = b;
 	color[3] = a;
 
-	glUseProgram(shaderId);
-
-	int location = glGetUniformLocation(shaderId,"color");
-	glUniform4f(location,color[0],color[1],color[2],color[3]);
+	RENDERER.SetUniform4f(shaderId,"color",color[0],color[1],color[2],color[3]);
 }
 
 void Panel::FlipX(bool state){
@@ -194,7 +149,6 @@ void Panel::FlipY(bool state){
 	flippedY = state;
 	SetMVP();
 }
-
 
 void Panel::ChangeContext(GLFWwindow *window){
 	//context = window;
@@ -208,17 +162,11 @@ void Panel::ChangeContext(GLFWwindow *window){
 	SetMVP();
 
 	//Generate Buffers
-	glGenBuffers(1,&vboId);
-	glGenBuffers(1,&iboId);
+	vboId = RENDERER.CreateBuffer();
+	iboId = RENDERER.CreateBuffer();
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, (sizeof(GLfloat)*16), vertices, GL_STATIC_DRAW);
-
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, indices, GL_STATIC_DRAW);
-
-	//glfwMakeContextCurrent(currWindow);
+	RENDERER.SetBufferData(vboId,GL_ARRAY_BUFFER,(sizeof(GLfloat)*16), vertices, GL_STATIC_DRAW);
+	RENDERER.SetBufferData(iboId,GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*6, indices, GL_STATIC_DRAW);
 }
 
 void Panel::SetShaders(std::string vsName, std::string fsName){
@@ -242,48 +190,7 @@ void Panel::SetShaders(std::string vsName, std::string fsName){
 	const char *vCode = vShader.c_str();
 	const char *fCode = fShader.c_str();
 
-	unsigned int vertex,fragment;
-
-	vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex,1,&vCode,NULL);
-	glCompileShader(vertex);
-
-
-	int  success;
-char infoLog[512];
-glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-
-	if(!success)
-{
-    glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-}
-
-	fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment,1,&fCode,NULL);
-	glCompileShader(fragment);
-
-glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-	if(!success)
-{
-    glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-}
-
-	shaderId = glCreateProgram();
-	glAttachShader(shaderId,vertex);
-	glAttachShader(shaderId,fragment);
-	glLinkProgram(shaderId);
-
-	glGetProgramiv(shaderId, GL_LINK_STATUS, &success);
-if(!success)
-{
-    glGetProgramInfoLog(shaderId, 512, NULL, infoLog);
-    std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-}
-
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
+	shaderId = RENDERER.CreateShaderId(vCode,fCode);
 }
 
 bool Panel::CheckBoundingBox(int x, int y){

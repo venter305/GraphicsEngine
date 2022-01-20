@@ -9,8 +9,8 @@ GUIManager::GUIManager(){
 
 void GUIManager::DrawElements(){
 	std::map<int,std::shared_ptr<GUIElement>>::iterator it;
-	for (it = elements.begin();it != elements.end();it++){
-		if (it->second->visable)it->second->Draw();
+	for (auto[id,element] : elements){
+		if (element->visable)element->Draw();
 	}
 }
 
@@ -35,18 +35,18 @@ void GUIManager::AddLayout(std::shared_ptr<GUILayout> layout){
 }
 
 void GUIManager::HandleEvent(Event& ev){
-	for (auto element : elements){
-		if (element.second->enableMouseEvents && ev.GetType()&(Event::MouseCursor|Event::MouseButton)){
-			element.second->MouseEventAction(ev);
+	for (auto [id,element] : elements){
+		if (element->enableMouseEvents && ev.GetType()&(Event::MouseCursor|Event::MouseButton)){
+			element->MouseEventAction(ev);
 		}
-		if (element.second->enableKeyEvents && ev.GetType()&(Event::Key|Event::Character))
-			element.second->KeyEventAction(ev);
+		if (element->enableKeyEvents && ev.GetType()&(Event::Key|Event::Character))
+			element->KeyEventAction(ev);
 	}
 }
 
 void GUIManager::Resize(int width,int height){
-	for (auto element : elements){
-		element.second->OnContextResize(width,height);
+	for (auto [id,element] : elements){
+		element->OnContextResize(width,height);
 	}
 
 }

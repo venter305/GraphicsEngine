@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Input/Input.h"
 #include "GUI/GUIManager.h"
+#include "Renderer.h"
 
 class Window {
   public:
@@ -14,6 +15,8 @@ class Window {
     float baseWidth = 0;
 
     std::string title = "New Window";
+
+    Renderer renderer;
 
     Window(int w,int h,std::string name):width(w),height(h),title(name),baseHeight(h),baseWidth(w){
       window = glfwCreateWindow(width,height,title.c_str(),NULL, NULL);
