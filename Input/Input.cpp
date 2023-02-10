@@ -48,3 +48,7 @@ void Input::GetMousePos(Window *window,double &xPos, double &yPos){
   yPos = (tmpYPos/window->height) * window->baseHeight;
   xPos = (tmpXPos/window->width) * window->baseHeight * aspectRatio;
 }
+
+int Input::GetKeyState(GLFWwindow *context, int key){
+  return glfwGetKey(context,key);
+}

@@ -49,7 +49,11 @@ void GraphicsEngine::AddWindow(Window* newWindow){
 		MouseMoveEvent ev(mouseX,mouseY);
 		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
 	});
-
+    glfwSetScrollCallback(window, [](GLFWwindow* win, double xOffset, double yOffset){
+		glfwMakeContextCurrent(win);
+		MouseScrollEvent ev(yOffset);
+		((Window*)glfwGetWindowUserPointer(win))->OnEvent(ev);
+	});
 	glfwSetWindowSizeCallback(window,[](GLFWwindow* win,int width,int height){
 		glfwMakeContextCurrent(win);
 		((Window*)glfwGetWindowUserPointer(win))->SetSize(width,height);

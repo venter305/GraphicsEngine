@@ -172,5 +172,23 @@ class MainWindow : public Window{
 
 		void OnEvent(Event &ev){
 			guiMan.HandleEvent(ev);
+			swich(ev.GetType()){
+				case Event::Key:
+					{
+						int keyCode = static_cast<KeyEvent*>(&ev)->GetKeyCode();
+						int keyState = static_cast<KeyEvent*>(&ev)->GetKeyState();
+						switch(keyCode){
+							case GLFW_KEY_UP:
+								rotD.z += 1;
+								break;
+							case GLFW_KEY_DOWN:
+								rotD.z -= 1;
+								break;
+
+						}
+
+						break;
+					}
+			}
 		}
 };

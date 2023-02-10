@@ -9,6 +9,13 @@
 
 class Text : public GUIElement{
 	public:
+		struct Character{
+			char charData;
+			int xOff = 0;
+			int yOff = 0;
+			int linNum = 0;
+			Panel *panel;
+		};
 
 		float fontSize;
 
@@ -22,7 +29,8 @@ class Text : public GUIElement{
 		virtual ~Text();
 
 		void Draw();
-		void SetText(std::string);
+		void SetText(std::string_view);
+		void SetSubText(int start, int len,std::string_view t);
 		void SetPos(float,float);
 		void SetFontSize(float);
 		void SetTextColor(float,float,float);
@@ -45,9 +53,10 @@ private:
 	int penX,penY;
 	int newLines = 0;
 	int newLineSpacing = 1;
-	std::vector<Panel*> characters;
+	std::vector<Character> characters;
 	FT_Library library;
 	FT_Face face;
 
 	void AddCharacter(char);
+	void SetCharacter(char c,int pos);
 };

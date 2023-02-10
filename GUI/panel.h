@@ -22,12 +22,14 @@ class Panel : public GUIElement{
 
 		GLuint fbo;
 		GLuint tex = -1;
+		GLuint texWidth = 0;
+		GLuint texHeight = 0;
 
 		bool flippedX = false;
 		bool flippedY = false;
 
 		Panel(GLuint,GLuint,GLuint,GLuint,Window* = nullptr,std::string="./GraphicsEngine/GUI/Shaders/panelVertShader",std::string="./GraphicsEngine/GUI/Shaders/panelFragShader");
-
+		Panel() = default;
 		virtual ~Panel();
 
 		virtual void Draw();

@@ -116,6 +116,8 @@ void Panel::SetTexture(GLuint texture){
 void Panel::CreateTexture(int w, int h,GLenum format,GLenum type,void* pixels){
 	RENDERER.DeleteTexture(tex);
 	tex = RENDERER.CreateTexture(w,h,format,type,pixels);
+	texWidth = w;
+	texHeight = h;
 }
 
 void Panel::UpdateTexture(int xOffset,int yOffset,int w,int h,GLenum format,GLenum type,void* pixels){

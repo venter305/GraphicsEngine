@@ -6,7 +6,7 @@
 #include "MouseButtonEvent.h"
 #include "MouseMoveEvent.h"
 #include "JoystickEvent.h"
-
+#include "MouseScrollEvent.h"
 class Window;
 class Input{
 
@@ -21,8 +21,10 @@ class Input{
 
     void OnUpdate();
 
+
     void (*onEvent)(Event&);
     void GetMousePos(Window* window,double& x,double& y);
+    int GetKeyState(GLFWwindow *context, int key);
 
 private:
 };

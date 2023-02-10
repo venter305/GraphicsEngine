@@ -94,6 +94,16 @@ GLuint Renderer::CreateTexture(int w, int h,GLenum format,GLenum type,void* pixe
   return tex;
 }
 
+GLuint Renderer::GenTexture(){
+  GLuint tex;
+  glGenTextures(1,&tex);
+  return tex;
+}
+
+void Renderer::CopyTexture(GLuint srcName,GLenum srcTarget,GLint srcX,GLint srcY,GLuint dstName,GLenum dstTarget,GLint dstX,GLint dstY,GLsizei srcWidth,GLsizei srcHeight){
+  glCopyImageSubData(srcName,srcTarget,0,srcX,srcY,0,dstName,dstTarget,0,dstX,dstY,0,srcWidth,srcHeight,0);
+}
+
 void Renderer::UpdateTexture(GLuint texId,int xOffset,int yOffset,int w,int h,GLenum format,GLenum type,void* pixels){
   glBindTexture(GL_TEXTURE_2D,texId);
 	glTexSubImage2D(GL_TEXTURE_2D,xOffset,yOffset,0,w,h,format,type,pixels);
@@ -125,4 +135,18 @@ void Renderer::SetUniform4f(GLuint shaderId, const char *uniformName, GLfloat va
   glUseProgram(shaderId);
 	int location = glGetUniformLocation(shaderId,uniformName);
 	glUniform4f(location,value1,value2,value3,value4);
+}
+
+void Renderer::Enable(GLenum cap, GLuint index){
+  glEnablei(cap,index);
+}
+
+void Renderer::Disable(GLenum cap, GLuint index){
+  glDisablei(cap,index);
+}
+
+void Renderer::GetBoolean(GLenum cap, GLboolean *data){
+  uint8_t val;
+  glGetBooleanv(cap,&val);
+  (*data) = val;
 }

@@ -18,6 +18,9 @@ public:
 
   virtual void Draw(){};
 
+  // GUIElement() = default;
+  // GUIElement(const GUIElement &g) = default;
+
   virtual void SetPos(float x,float y){
     xPos = x;
     yPos = y;
