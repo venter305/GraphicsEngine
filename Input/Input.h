@@ -24,6 +24,7 @@ class Input{
 
     void (*onEvent)(Event&);
     void GetMousePos(Window* window,double& x,double& y);
+	int GetMouseButton(GLFWwindow* window, int button);
     int GetKeyState(GLFWwindow *context, int key);
 
 private:
